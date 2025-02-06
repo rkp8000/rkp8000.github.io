@@ -3,9 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
+    <title>Rich Pang</title>
+
+    <!-- Inline CSS -->
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Container for layout */
+        .container {
+            display: flex;
+            margin: 20px;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 200px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar ul li a:hover {
+            color: #f4f4f4;
+        }
+
+        /* Main content styling */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+            margin-left: 20px;
+            border-radius: 8px;
+        }
+
+        .main-content h1 {
+            margin-bottom: 20px;
+        }
+
+        .main-content p {
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to my website</h1>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Rich Pang</h2>
+            <ul>
+                <li><a href="#">research</a></li>
+                <li><a href="#">publications</a></li>
+                <li><a href="#">tutorials</a></li>
+                <li><a href="#">software</a></li>
+                <li><a href="#">tips & tricks</a></li>
+                <li><a href="#">reproducibility</a></li>
+                <li><a href="#">journals</a></li>
+                <li><a href="#">github</a></li>
+                <li><a href="#">scholar</a></li>
+            </ul>
+
+            <h2>blog</h2>
+            <ul>
+                <li><a href="#">An alternative construction of Shannon entropy</a><br />Aug 2, 2024</li>
+                <li><a href="#">Estimating slow correlations from samples of limited duration</a><br />Nov 8, 2022</li>
+                <li><a href="#">Using regularization to handle correlated predictors</a><br />May 18, 2022</li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <p>I am a postdoctoral researcher at Princeton University applying theory- and data-driven approaches to problems in neuroscience and behavior. I work in the Princeton Neuroscience Institute and the Center for the Physics of Biological Function.</p>
+            <p>I am interested in how the brain processes the complex streams of sensory inputs we experience in day-to-day life. In particular, how are such inputs integrated over time to support memory-based computational, learning, and behavioral processes? I am also interested in how macroscopic computations emerge from strongly connected microscopic processes. For instance, how can biological neural network models simultaneously produce brain-like chaos while also robustly retaining information in working memory? To address these questions I combine ideas and tools from a range of disciplines including dynamical systems theory, statistical physics, time-series analysis, coding theory, and high-dimensional computing.</p>
+            <p>I have been a teaching assistant for several theoretical neuroscience and related courses, including the Allen Institute’s Summer Workshop on the Dynamic Brain, the IBRO-Simons Computational Neuroscience Imbizo, and Coursera’s Computational Neuroscience course.</p>
+            <p>Check out some of the online tutorials I’ve made or my tips & tricks for improving your computational research experience.</p>
+        </main>
+    </div>
 </body>
 </html>
