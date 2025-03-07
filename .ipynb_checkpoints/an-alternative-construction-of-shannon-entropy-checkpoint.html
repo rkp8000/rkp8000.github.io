@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An alternative construction of Shannon entropy</title>
+
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Rich Pang</h2>
+            <ul>
+                <li><a href="#">research</a></li>
+                <li><a href="#">publications</a></li>
+                <li><a href="#">tutorials</a></li>
+                <li><a href="#">software</a></li>
+                <li><a href="#">tips & tricks</a></li>
+                <li><a href="#">reproducibility</a></li>
+                <li><a href="#">journals</a></li>
+                <li><a href="#">github</a></li>
+                <li><a href="#">scholar</a></li>
+            </ul>
+    
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <h1>An alternative construction of Shannon Entropy</h1>
+            <strong>
+            TL;DR: Shannon’s entropy formula is usually justified by showing it satisfies key mathematical criteria, or by computing how much space is needed to encode a variable. But one can also construct Shannon’s formula starting purely from the simpler notion of entropy as a (logarithm of a) count—of how many different ways a distribution could have emerged from a sequence of samples.    
+            </strong>
+            
+            <h2>Entropy of a probability disribution</h2>
+            
+            <p>
+            The underpinning of information theory is Shannon’s formula for the entropy H of a discrete probability distribution P. Derived in 1948 in the paper “A mathematical theory of communication”, this is given by
+
+            \[
+            H[P] = -\sum_{i=1}^N p_i \log p_i
+            \]
+
+            where <span id="math-equation">\( p_i = p(x_i) \)</span> is the probability of sampling 
+            <span id="math-equation">\( x_i \)</span> from <span id="math-equation">\( P \)</span>.
+            </p>
+            
+            <p>
+            There are many ways to think about entropy, but one intuition is that H quantifies how spread out P is. It is a more general statistic than e.g. variance, because entropy does not require a notion of distance between different 
+                <span id="math-equation">\( x_i \)</span>. Thus one can compute the entropy of a distribution over colors, names, categories, etc., for which variance might not make sense.
+            </p>
+                
+            <p>
+            For a uniform distribution over N outcomes, the Shannon entropy is:
+            
+            \[
+            H[P] = -\sum_{i=1}^N \frac{1}{N} \log \frac{1}{N} = -\log \frac{1}{N} = \log N.    
+            \]
+                
+            The entropy is just the number of possible outcomes, counted in log units. Log units are used because the number of outcomes often grows exponentially with system size. For instance, the number of unique binary words of length 
+                <span id="math-equation">\( T \)</span> is <span id="math-equation">\( 2^T \)</span>. The entropy of a uniform distribution over such words is therefore <span id="math-equation">\( \log 2^T = T \)</span> bits.
+            </p>
+            
+            <p>
+            But Eq. 1 applies to all discrete distributions, not just uniform ones. At first glance the general formula is not particularly intuitive. Why the minus sign? Why a probability times a logarithm of a probability? Where does Eq. 1 come from?
+            </p>
+            
+            <h2>Shannon's derivation</h2>
+            
+            <p>
+            The usual explanation of why Eq. 1 is the right formula for entropy can be found in Shannon’s <a href="https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf">paper</a> itself (p. 10-11).
+            </p>
+            
+            <p>
+            Essentially Eq. 1 is the unique solution (up to a positive multiplicative factor) satisfying three criteria: (1) <span id="math-equation">\( H \)</span> is continuous in the probability levels, (2) <span id="math-equation">\( H \)</span> of a uniform distribution increases with the number of possible outcomes, and (3) if an observation from P can be broken into two or more sequential observations (e.g. first observing whether a sample is in category A or B, then observing its exact value), then <span id="math-equation">\( H \)</span> should be decomposable into a weighted sum of the individual entropies.
+            </p>
+            
+            <p>
+            Appendix 2 of Shannon’s paper shows why Eq. 1 satisfies these, and the proof is quite accessible. However, the derivation essentially starts by assuming one already knows the answer, obscuring how one would have discovered Eq. 1 in the first place.
+            </p>
+            
+            <h2>Expected space to encode a sample</h2>
+            
+            <p>
+            A second derivation of Shannon’s formula comes from computing the expected number of bits required to encode a sample from <span id="math-equation">\( P \)</span>. For instance, if <span id="math-equation">\( P \)</span> is a uniform distribution over 4 possible outcomes, it takes <span id="math-equation">\( \log_2(4) = 2 \)</span> bits to encode one of these outcomes (00, 01, 10, or 11), i.e. to communicate to someone else which outcome occurred. More generally, it takes <span id="math-equation">\( \log 1/p_i = -\log p_i \)</span> bits to encode a sample that occurs with probability <span id="math-equation">\( p_i \)</span>, and the expectation of this quantity is <span id="math-equation">\( \mathbb{E}[-\log p_i] \)</span> which is equivalent to Eq. 1.
+            </p>
+            
+            <p>
+            This derivation is elegant and intuitive, but it requires introducing the notion of encoding. And even though it kind of makes sense that rarer outcomes would require more space to encode, it takes a bit of head-scratching (at least for me) to arrive at why <span id="math-equation">\( \log 1/p_i \)</span> is the right quantity for a non-uniform distribution. (Of course, the link between entropy and encoding is a core element of Information Theory, so it’s definitely worth working through this, but it takes a bit of thinking.)
+            </p>
+            
+            <h2>An alternative construction</h2>
+            
+            <p>
+            Is there a way to arrive at Shannon’s formula without knowing what it should look like ahead of time? And without the notion of encoding? In particular, <strong>can we go from the simpler notion of entropy as the log number of possible outcomes of something to Shannon’s formula for an arbitrary <span id="math-equation">\( P \)</span>?</strong>
+            </p>
+            
+            <p>
+            It turns out Shannon entropy emerges when we choose that something to be <strong>a sequence of samples consistent with a histogram approximating <span id="math-equation">\( P \)</span></strong> (i.e. that converges to <span id="math-equation">\( P \)</span> in the limit of infinite samples). If we count these in log units, Eq. 1 emerges.
+            </p>
+            
+            <p>
+            I first saw this derivation in Leonard Susskind’s excellent Statistical Mechanics course (<a href="https://www.youtube.com/watch?v=EmM1jOV1uSY">Lecture 3</a>), albeit in a different context—connecting Boltzmann and Gibbs entropy. Below I’ll present it differently, but the math is the same. This derivation is longer than Shannon’s, but it shows how one might have come upon Eq. 1 without already knowing what it should look like and without introducing the notion of encoding.
+            </p>
+            
+            <h2>Entropy as a log count of sequences of samples</h2>
+            
+            <p>
+            Consider drawing <span id="math-equation">\( L \)</span> samples from a distribution <span id="math-equation">\( P \)</span>, one after another. As <span id="math-equation">\( L \)</span> increases, the histogram constructed from the samples will tend toward <span id="math-equation">\( P \)</span>. How many different sequences of <span id="math-equation">\( L \)</span> samples could have produced a given histogram?
+            </p>
+            
+            <p>
+            Suppose <span id="math-equation">\( P \)</span> is defined over <span id="math-equation">\( N \)</span> possible outcomes, <span id="math-equation">\( x_1 , \dots , x_N \)</span> , and we have collected <span id="math-equation">\( L_1 \)</span> observations of <span id="math-equation">\( x_1 \)</span>, <span id="math-equation">\( L_2 \)</span> observations of <span id="math-equation">\( x_2 \)</span>, etc, where <span id="math-equation">\( L = L_1 + \dots + L_N \)</span>. The number of ways (call this <span id="math-equation">\( N_{seq} \)</span>) we could have gotten <span id="math-equation">\( L_1 \)</span> samples of <span id="math-equation">\( x_1 \)</span>, <span id="math-equation">\( L_2 \)</span> samples of <span id="math-equation">\( x_2 \)</span>, etc. is
+
+            \[
+            N_{seq}(L) = {L \choose L_1} {L - L_1 \choose L_2} \cdots {L - L_1 - \cdots - L_{N-1} \choose L_N}
+            \]
+            
+            \[
+            = \frac{L!}{L_1! (L-L_1)!} \times \frac{(L-L_1)!}{L_2! (L-L_1-L_2)!} \cdots
+            = \frac{L!}{L_1! L_2! \cdots L_N!}
+            \]
+            
+            where we have canceled the second term in each denominator with the next numerator.
+            </p>
+            
+            <p>
+            Counting in log units we then find that
+            \[
+            \log N_{seq}(L) = 
+            \log \left(
+            \frac{L!}{L_1! \cdots L_N!}
+            \right)
+            = \log L! - \log L_1! - \dots - \log L_N!,
+            \]
+            
+            the log number of different sequences of <span id="math-equation">\( L \)</span> samples that would have produced our histogram. Next, letting <span id="math-equation">\( L \)</span> be large enough to use Stirling's approximation (<span id="math-equation">\( \log L! \approx L \log L - L) \)</span>, we find
+                
+            \[
+            \log N_{seq}(L) \approx L \log L - L - (L_1 \log L_1 - L_1) - \dots - (L_N \log L_N - L_N).
+            \]
+            </p>
+            
+            <p>
+            Regrouping terms,
+            
+            \[
+            \log N_{seq}(L) \approx L \log L - (L_1 \log L_1 + \dots + L_N \log L_N) - L + (L_1 + \dots + L_N)
+            \]
+            
+            \[
+            = L \log L - (L_1 \log L_1 + \dots + L_N \log L_N)
+            \]
+                
+                since <span id="math-equation">\( L = L_1 + \dots + L_N \)</span>. Factoring out <span id="math-equation">\( L \)</span> we have
+                
+            \[
+            \log N_{seq}(L) \approx
+            L\left[ \log L - \left(\frac{L_1}{L} \log L_1 + \dots + \frac{L_N}{L} \log L_N \right) \right].
+            \]
+                
+            \[
+            =
+            L\left[ \log L - (\hat{p}_1 \log L + \dots + \hat{p}_N \log L) - (\hat{p}_1 \log \hat{p}_1 + \cdots + \hat{p}_N \log \hat{p}_N) \right]
+            \]
+            
+            \[
+            = L\left[ \log L - \log L - (\hat{p}_1 \log \hat{p}_1 + \cdots + \hat{p}_N \log \hat{p}_N) \right]
+            \]
+                
+            where we have used
+                
+            \[
+            \hat{p}_i \equiv L_i/L \quad \text{and} \quad \sum_i \hat{p}_i = 1.
+            \]
+            </p>
+            
+            <p>
+            Thus
+                
+            \[
+            \log N_{seq}(L) \approx 
+            L\left[ -(\hat{p}_1 \log \hat{p}_1 + \cdots + \hat{p}_N \log \hat{p}_N) \right]
+            =
+            -L \sum_i \hat{p}_i \log \hat{p}_i.
+            \]
+            
+            Since our histogram approaches <span id="math-equation">\( P \)</span> as <span id="math-equation">\( L \to \infty \)</span> we arrive at
+                
+            \[
+            \log N_{seq}(L) \to -L\sum_i p_i \log p_i .
+            \]
+            </p>
+            
+            <p>
+            Finally, to obtain a quantity that does not depend on the number of samples we divide both sides by <span id="math-equation">\( L \)</span>:
+                
+            \[
+            \frac{\log N_{seq}(L)}{L} \to -\sum_i p_i \log p_i = H[P].
+            \]
+            </p>
+            
+            <p>
+            Thus, when we count how many different sequences of samples could have produced <span id="math-equation">\( P \)</span>, in log units and normalizing by the number of samples, we arrive once again at Eq. 1. That is, <em>Shannon's formula is a normalized log-count</em> of how many ways a distribution could have emerged.
+            </p>
+        </main>
+    </div>
+</body>
+</html>

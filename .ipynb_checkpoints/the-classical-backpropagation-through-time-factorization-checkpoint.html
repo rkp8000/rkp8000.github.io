@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Classical Backpropagation Through Time Factorization</title>
+
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Rich Pang</h2>
+            <ul>
+                <li><a href="#">research</a></li>
+                <li><a href="#">publications</a></li>
+                <li><a href="#">tutorials</a></li>
+                <li><a href="#">software</a></li>
+                <li><a href="#">tips & tricks</a></li>
+                <li><a href="#">reproducibility</a></li>
+                <li><a href="#">journals</a></li>
+                <li><a href="#">github</a></li>
+                <li><a href="#">scholar</a></li>
+            </ul>
+    
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <h1>The Classical Backpropagation Through Time Factorization</h1>
+            <strong>
+            TL;DR A derivation of the "classical" factorization of backpropagation through time, as described in <a href="https://www.nature.com/articles/s41467-020-17236-y">Bellec et al 2020</a>
+            </strong>
+            
+            <h2>Computation graphs and the chain rule</h2>
+            
+            <p>
+            The rule for computing partial derivatives is to sum up the paths (see <a href="https://colah.github.io/posts/2015-08-Backprop/">Christopher Olah's excellent blog post on this</a>). In the multivariate case, instead of multiplying partial derivatives together we multiply Jacobians.
+            </p>
+
+            <img src="bptt_factorization_comp_graph_1.png" width="250px" class="center" />
+            <p>
+            
+            </p>
+            <img src="bptt_factorization_comp_graph_2.png" width="750px" class="center" />
+        </main>
+    </div>
+</body>
+</html>
