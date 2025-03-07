@@ -34,21 +34,129 @@
         <main class="main-content">
             
             <h1>The Classical Backpropagation Through Time Factorization</h1>
+            <p>
             <strong>
-            TL;DR A derivation of the "classical" factorization of backpropagation through time, as described in <a href="https://www.nature.com/articles/s41467-020-17236-y">Bellec et al 2020</a>
+            TL;DR A derivation of the "classical" factorization of the loss gradient in backpropagation through time mentioned in <a href="https://www.nature.com/articles/s41467-020-17236-y">Bellec et al 2020</a>.
             </strong>
+            </p>
+
+            <p>
+            The following will be well known to many, but I found it surprisingly hard to find on the internet. Here we derive what is referred to as the "classical factorization" of the loss gradient in backpropagation through time, which serves as the starting point for the derivation of the recently proposed "e-prop" learning rule (<a href="https://elifesciences.org/articles/43299">Murray 2019</a>, <a href="https://www.nature.com/articles/s41467-020-17236-y">Bellec et al 2020</a>), which connects loss gradients in machine learning to biologically plausible, local plasticity rules.
+            </p>
+
+            <p>
+            Mostly, I thought it was worth writing a post about this to clarify exactly what they're talking about, and at the very least so that more than simply Bellec et al 2020 comes up in an internet search for "classical factorization of backpropagation through time".
+            </p>
+
+            <h2>Gradient of the loss with respect to weights in a recurrent neural network</h2>
+            <p>
+            Assume that a loss function <span id="math-equation">\( E \)</span> depends on a set of hidden states <span id="math-equation">\( \{ \mathbf{h}^t \} \)</span> of a recurrent neural network parameterized by a weight matrix <span id="math-equation">\( W \)</span>. The "classical" factorization of the loss gradient <span id="math-equation">\( \nabla_W E \)</span> is defined via
+            </p>
+
+            \[
+            \frac{dE}{dW_{ji}} = \sum_t \frac{dE}{d\mathbf{h}_j^t} \frac{\partial\mathbf{h}_j^t}{\partial W_{ji}}
+            \]
+
+            <p>
+            where <span id="math-equation">\( j \)</span> indexs the post-synaptic neuron. We'll ignore this index <span id="math-equation">\( j \)</span> (it essentially means that a specific weight only affects the loss through the neuron it projects onto), and instead focus on the factorization 
+            </p>
+
+            \[
+            \frac{dE}{dW} = \sum_t \frac{dE}{d\mathbf{h}^t} \frac{\partial\mathbf{h}^t}{\partial W}
+            \]
+
+            <p>
+            which captures the essence of the problem in its fully vectorial format. Note that the first term is a <em>total derivative</em> whereas the second term is a <em>partial derivative</em>.
+            </p>
+
+            <p>
+            At the end of the day, the derivation boils down to the multivariate chain rule, but unfortunately if you just start plugging and chugging, it's easy to get lost and deviate away from this particular "factorization". For instance, you might start by summing up the partials of <span id="math-equation">\( E \)</span> with respect to <span id="math-equation">\( \mathbf{h}^t \)</span> multiplied by the total derivatives of <span id="math-equation">\( \mathbf{h}^t \)</span> with respect to <span id="math-equation">\( W \)</span>
+            </p>
+
+            \[
+            \frac{dE}{dW} = \sum_t \frac{\partial E}{\partial \mathbf{h}^t} \frac{d \mathbf{h}^t}{dW}.
+            \]
+
+            <p>
+            If you treat <span id="math-equation">\( \mathbf{h}^t \)</span> and <span id="math-equation">\( W \)</span> as scalars and assume that <span id="math-equation">\( E = E(\{ \mathbf{h}^t \}) \)</span> and <span id="math-equation">\( \mathbf{h}^t = \mathbf{h}^t(W) \)</span>, this is exactly what you would have learned to do in multivariate calculus class. But if we compare this to the "classical factorization" the partial and total derivatives are reversed! How can we recover the classical factorization without getting lost in a sea of derivatives?
+            </p>
+
+            <p>
+            The key, of course, is to think in terms of computation graphs, one of the abstractions that has made modern machine learning what it is today.
+            </p>
             
             <h2>Computation graphs and the chain rule</h2>
             
             <p>
-            The rule for computing partial derivatives is to sum up the paths (see <a href="https://colah.github.io/posts/2015-08-Backprop/">Christopher Olah's excellent blog post on this</a>). In the multivariate case, instead of multiplying partial derivatives together we multiply Jacobians.
+            Essentially, computation graphs are directed acyclic graphs that specify how information flows through a computation, and they are super useful for computing gradients in complex computations. See <a href="https://colah.github.io/posts/2015-08-Backprop/">Christopher Olah's excellent blog post</a> for details about how they work. For example, we can depict the set of functions
             </p>
 
-            <img src="bptt_factorization_comp_graph_1.png" width="250px" class="center" />
+            \[
+            \mathbf{x} = \mathbf{x}(W) \quad \quad
+            \mathbf{y} = \mathbf{y}(\mathbf{x}, W) \quad \quad
+            \mathbf{z} = \mathbf{z}(\mathbf{x}, \mathbf{y}, W) \quad \quad
+            L = L(\mathbf{x}, \mathbf{y}, \mathbf{z}) \quad \quad
+            \]
+
             <p>
-            
+            as
+            <img src="bptt_factorization_comp_graph_1a.png" width="250px" class="center" />.
             </p>
-            <img src="bptt_factorization_comp_graph_2.png" width="750px" class="center" />
+
+            <p>
+            Now, if we wanted to figure out the gradient of <span id="math-equation">\( L \)</span> with respect to <span id="math-equation">\( W \)</span> we could crunch through the chain rule. However, there's a good chance we'd get lost or end up with a bunch of decisions to make about how to group terms to keep everything from getting out of control.
+            </p>
+
+            <h2>Summing over paths to compute derivatives</h2>
+            <p>
+            Enter the computation graph, which makes everything immensely easier. The rule for computing the <span>total derivative</span> of one node B with respect to an ancestor node A is very simple: sum up all of the paths from A to B. (The total derivative specifies the change in B caused by a change in A through all possible other variables through which A could influence B.) Stated more precisely, the sum is indeed a sum over paths, where each "path" is represented mathematically as the product of Jacobians going backward along the path.
+            </p>
+
+            <p>
+            For example, to calculate the total derivative <span id="math-equation">\( dL/dW \)</span> we first enumerate all six paths from <span id="math-equation">\( W \)</span> to <span id="math-equation">\( L \)</span>:
+            <img src="bptt_factorization_comp_graph_1b.png" width="750px" class="center" />
+            and then sum them via:
+            </p>
+
+            \[
+            \begin{split}
+            \frac{dL}{dW} & = \mathcal{D}_{L\mathbf{x}}\mathcal{D}_{\mathbf{x}W} + \mathcal{D}_{L\mathbf{y}}\mathcal{D}_{\mathbf{y}\mathbf{x}}\mathcal{D}_{\mathbf{x}W} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}}\mathcal{D}_{\mathbf{y}\mathbf{x}}\mathcal{D}_{\mathbf{x}W} \\
+            & + \mathcal{D}_{L\mathbf{y}}\mathcal{D}_{\mathbf{y}W} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}}\mathcal{D}_{\mathbf{y}W} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}W}
+            \end{split}
+            \]
+            
+            <p>
+            where <span id="math-equation">\( \mathcal{D}_{BA} \)</span> is the Jacobian of <span id="math-equation">\( B \)</span> with respect to <span id="math-equation">\( A \)</span>, whose dimension is <span id="math-equation">\( \text{dim}(B) \times \text{dim}(A) \)</span>.
+            </p>
+
+            <h2>Factorizing sums of paths</h2>
+            <p>
+            We still need one more trick, however. Counting paths can also get out of hand pretty quickly. Luckily, however, we can factorize these sums. In particular, if we want to sum over all paths that go from A to B through a particular node C, we can multiply the sum of the paths from C to B by the sum of the paths from A to C. For example, in the computation below we can sum over all paths from <span id="math-equation">\( W \)</span> to <span id="math-equation">\( L \)</span> going through <span id="math-equation">\( \mathbf{y} \)</span> via
+            </p>
+            
+            <img src="bptt_factorization_comp_graph_1c.png" width="750px" class="center" />
+            <p>
+            which corresponds to the equation
+            </p>
+
+            \[
+            \mathcal{D}_{L\mathbf{y}}\mathcal{D}_{\mathbf{y}\mathbf{x}}\mathcal{D}_{\mathbf{x}W} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}}\mathcal{D}_{\mathbf{y}\mathbf{x}}\mathcal{D}_{\mathbf{x}W} + \mathcal{D}_{L\mathbf{y}}\mathcal{D}_{\mathbf{y}W} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}}\mathcal{D}_{\mathbf{y}W} = 
+            (\mathcal{D}_{L\mathbf{y}} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}}) \times
+            (\mathcal{D}_{\mathbf{y}W} + \mathcal{D}_{\mathbf{y}\mathbf{x}}\mathcal{D}_{\mathbf{x}W})
+            \]
+            
+            <img src="bptt_factorization_comp_graph_2a.png" width="250px" class="center" />
+            <p>
+                Blah blah
+            </p>
+            <img src="bptt_factorization_comp_graph_2b.png" width="750px" class="center" />
+            <p>
+                Blah blah
+            </p>
+            <img src="bptt_factorization_comp_graph_2c.png" width="500px" class="center" />
+            <p>
+                Blah blah
+            </p>
         </main>
     </div>
 </body>
