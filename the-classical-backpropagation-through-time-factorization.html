@@ -114,6 +114,8 @@
 
             <p>
             For example, to calculate the total derivative <span id="math-equation">\( dL/dW \)</span> we first enumerate all six paths from <span id="math-equation">\( W \)</span> to <span id="math-equation">\( L \)</span>:
+            </p>
+            <p>
             <img src="bptt_factorization_comp_graph_1b.png" width="750px" class="center" />
             and then sum them via:
             </p>
@@ -126,36 +128,66 @@
             \]
             
             <p>
-            where <span id="math-equation">\( \mathcal{D}_{BA} \)</span> is the Jacobian of <span id="math-equation">\( B \)</span> with respect to <span id="math-equation">\( A \)</span>, whose dimension is <span id="math-equation">\( \text{dim}(B) \times \text{dim}(A) \)</span>.
+            where <span id="math-equation">\( \mathcal{D}_{BA} \)</span> is the Jacobian of <span id="math-equation">\( B \)</span> with respect to <span id="math-equation">\( A \)</span>. Recall that the Jacobian is the matrix of partial derivatives of each component of <span id="math-equation">\( B \)</span> with respect to each component of <span id="math-equation">\( A \)</span>, whose dimension is <span id="math-equation">\( \text{dim}(B) \times \text{dim}(A) \)</span>.
             </p>
 
             <h2>Factorizing sums of paths</h2>
             <p>
-            We still need one more trick, however. Counting paths can also get out of hand pretty quickly. Luckily, however, we can factorize these sums. In particular, if we want to sum over all paths that go from A to B through a particular node C, we can multiply the sum of the paths from C to B by the sum of the paths from A to C. For example, in the computation below we can sum over all paths from <span id="math-equation">\( W \)</span> to <span id="math-equation">\( L \)</span> going through <span id="math-equation">\( \mathbf{y} \)</span> via
-            </p>
-            
-            <img src="bptt_factorization_comp_graph_1c.png" width="750px" class="center" />
-            <p>
-            which corresponds to the equation
+            We still need one more trick, however. Counting paths can also get out of hand pretty quickly. Luckily, however, we can factorize these sums, essentially by identifying which terms have common Jacobians and applying the distributive rule. There are various ways to do this, but one that will be particularly useful in our case is to group the first three terms together, then the next two terms, then the final term:
             </p>
 
             \[
-            \mathcal{D}_{L\mathbf{y}}\mathcal{D}_{\mathbf{y}\mathbf{x}}\mathcal{D}_{\mathbf{x}W} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}}\mathcal{D}_{\mathbf{y}\mathbf{x}}\mathcal{D}_{\mathbf{x}W} + \mathcal{D}_{L\mathbf{y}}\mathcal{D}_{\mathbf{y}W} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}}\mathcal{D}_{\mathbf{y}W} = 
-            (\mathcal{D}_{L\mathbf{y}} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}}) \times
-            (\mathcal{D}_{\mathbf{y}W} + \mathcal{D}_{\mathbf{y}\mathbf{x}}\mathcal{D}_{\mathbf{x}W})
+            \begin{split}
+            \frac{dL}{dW} & = (\mathcal{D}_{L\mathbf{x}}\mathcal{D}_{\mathbf{x}W} + \mathcal{D}_{L\mathbf{y}}\mathcal{D}_{\mathbf{y}\mathbf{x}}\mathcal{D}_{\mathbf{x}W} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}}\mathcal{D}_{\mathbf{y}\mathbf{x}}\mathcal{D}_{\mathbf{x}W})
+             + (\mathcal{D}_{L\mathbf{y}}\mathcal{D}_{\mathbf{y}W} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}}\mathcal{D}_{\mathbf{y}W}) + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}W} \\
+            & = (\mathcal{D}_{L\mathbf{x}} + \mathcal{D}_{L\mathbf{y}}\mathcal{D}_{\mathbf{y}\mathbf{x}} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}}\mathcal{D}_{\mathbf{y}\mathbf{x}})\mathcal{D}_{\mathbf{x}W} + (\mathcal{D}_{L\mathbf{y}} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}\mathbf{y}})\mathcal{D}_{\mathbf{y}W} + \mathcal{D}_{L\mathbf{z}}\mathcal{D}_{\mathbf{z}W}.
+            \end{split}
             \]
+
+            <p>
+            Here we have organized the set of paths by grouping the paths according to which of them share a common edge from <span id="math-equation">\( W \)</span> to one of the intermediate nodes. We can in turn notice that the left hand term in each product is in fact a <em>total derivative</em>:
+            </p>
+
+            \[
+            \frac{dL}{dW} = \frac{dL}{d\mathbf{x}}\mathcal{D}_{\mathbf{x}W} + \frac{dL}{d\mathbf{y}}\mathcal{D}_{\mathbf{y}W} + \frac{dL}{d\mathbf{z}}\mathcal{D}_{\mathbf{z}W}.
+            \]
+
+            <p>
+            We have almost arrived at the classical factorization of BPTT!
+            </p>
             
+            <h2>Return to backpropagation through time</h2>
+
+            <p>
+            The computation graph for a recurrent neural network with hidden states <span id="math-equation">\( \mathbf{h}^t \)</span> and parameterized by weights <span id="math-equation">\( W \)</span> is:
             <img src="bptt_factorization_comp_graph_2a.png" width="250px" class="center" />
-            <p>
-                Blah blah
             </p>
-            <img src="bptt_factorization_comp_graph_2b.png" width="750px" class="center" />
             <p>
-                Blah blah
+            We will now factorize the gradient of the loss <span id="math-equation">\( E \)</span> with respect to the weights <span id="math-equation">\( W \)</span>. As with the last example, we will group terms according to the first edge out of <span id="math-equation">\( W \)</span>:
             </p>
-            <img src="bptt_factorization_comp_graph_2c.png" width="500px" class="center" />
             <p>
-                Blah blah
+            <img src="bptt_factorization_comp_graph_2b.png" width="900px" class="center" />
+            or, mathematically:
+            </p>
+
+            \[
+            \begin{split}
+            \frac{dE}{dW} & = \dots + (\mathcal{D}_{E\mathbf{h}^t} + \mathcal{D}_{E\mathbf{h}^t}\mathcal{D}_{\mathbf{h}^{t+1}\mathbf{h}^t} + \dots )\mathcal{D}_{\mathbf{h}^tW}
+            + (\mathcal{D}_{E\mathbf{h}^{t+1}} + \mathcal{D}_{E\mathbf{h}^{t+1}}\mathcal{D}_{\mathbf{h}^{t+2}\mathbf{h}^{t+1}} + \dots )\mathcal{D}_{\mathbf{h}^{t+1}W} + \dots \\
+            & = \dots + \frac{dE}{d\mathbf{h}^t}\mathcal{D}_{\mathbf{h}^tW} + \frac{dE}{d\mathbf{h}^{t+1}}\mathcal{D}_{\mathbf{h}^{t+1}W} \\
+            \end{split}
+            \]
+
+            <p>
+            where we replaced the left-hand terms with their corresponding total derivatives (since they specify all paths from <span id="math-equation">\( \mathbf{h}^t \)<\span> to <span id="math-equation">\( E \)</span>. Finally, recalling that the Jacobian is a matrix of partial derivatives, we arrive at
+            </p>
+
+            \[
+            \frac{dE}{dW} = \sum_t \frac{dE}{d\mathbf{h}^t}\frac{\partial \mathbf{h}^t}{\partial W}
+            \]
+
+            <p>
+            recovering the classical factorization.
             </p>
         </main>
     </div>
