@@ -31,9 +31,34 @@
             
             <h1>Research</h1>
             
+            <h2>Memory formation during natural behavior</h2>
             <p>
-              Lorem ipsum...
-            </p>                        
+            Episodic memory---memory for bounded experiences like a walk through town or a conversation with a friend---is fundamental to human experience and impaired in brain disorders. Typically, biological models of episodic memory are based on Hebbian learning---the famous premise that "neurons that fire together wire together." Yet despite decades of research the role of Hebbian plasticity in the brain is not well established. Some of the most plastic synapses in the brain are non-Hebbian, as in hippocampal mossy fiber synapses, where plasticity depends mostly on presynaptic activity. Building on <a href="https://elifesciences.org/articles/44324">past work</a> with Adrienne Fairhall on the role of cellular excitability changes in memory, in a recent <a href="https://www.science.org/doi/10.1126/sciadv.ado4112?url_ver=Z39.88-2003">study</a> with Stefano Recanatesi we show that even a purely presynaptic rule can support a highly flexible memory system. In fact, we find that such a rule may be naturally poised to encode episodic memories as <i>virtual odor trails</i> that specify paths through complex state spaces, and which can be recalled with an odor-tracking algorithm. In our work we show how such a scheme enables single-shot memorization of paths through the world—--or more generally an internal model of the world—--immediate storage and recall of arbitrary sequences and associations, and a flexible policy-learning scheme that allows an agent to quickly find resources in new environments. Our model thus represents a simple alternative to Hebbian theory consistent with fast biological plasticity rules, establishing a new link between local plasticity processes and the reconstructive nature of recall via path-following.
+            </p>    
+            
+            <p>
+            I also apply data-driven approaches to understanding memory, where I focus on the encoding of social communication signals in the brains of fruit flies. During courtship, male fruit flies vibrate their wing toward females to sing long, complex courtship songs, with the flickering and highly variable changes in song modes not unlike the flickering phonemes of speech. But how the female fly processes, remembers, and responds to these songs are unknown. To resolve how neural dynamics in the female fly brain encode the male’s song during courtship and modulate her behavior I develop computational models linking natural behavior data and large-scale neural recordings. In a <a href="https://www.biorxiv.org/content/10.1101/2024.01.26.577404v1">preprint</a> with the Pillow and Murthy labs at Princeton, we show how simple biological processes like adaptation and integration can transform song history into a rich, multi-dimensional population code well posed to guide flexible behavioral responses. This model outperforms a suite of alternatives at explaining female fly behavior, including state-of-the-art artificial neural networks, and suggests that the neural basis of "listening" during communication is based largely on the integration of inputs. Song inputs, however, are first nonlinearly transformed so that the integration process retains, rather than washes out, fine-scale temporal information in song. This work suggests a specific mechanism for the online neural encoding of long, complex input sequences in the brain, while also demonstrating how models of neural dynamics can be compared directly against natural behavior data to resolve novel computational processes.
+            </p>
+            
+            <h2>Network dynamics and control</h2>
+            
+            <p>
+            Animals and humans can learn highly precise motor behaviors, such as music production or complex sporting maneuvers. Producing these behaviors requires tight temporal coordination among multiple motor signals, but we lack a thorough understanding of how this is achieved in the face of noise. Working with the Fairhall Lab at the University of Washington, I have developed a songbird-inspired model addressing how activity sequences generated in noisy neural networks can unfold over long timescales without accumulating timing errors. We <a href="https://www.biorxiv.org/content/10.1101/2022.05.18.492498v1">show</a>, at both a mechanistic and theoretical level, how a one-dimensional thalamic-like input to a sequence-generating motor area can quench timing errors, provided the input’s spatial structure reflects its timecourse. This mechanism requires no feedback from or direct interaction among motor subprocesses to keep them coordinated, and instead reflects a purely feed-forward control process, revealing a simple "first-order" model for precision timing control. Intuitively, thalamus could act as a conductor to coordinate multiple downstream motor processes over the long timescales of complex learned skills, with feedback playing more of an auxiliary role.
+            </p>
+            
+            <p>
+            Finally, I am interested in how chaotic dynamics in random networks could subserve working memory and information processing. My work in this area (unpublished) suggests that when the units of a random network are multi-dimensional, akin to small neural assemblies with a divisive normalization nonlinearity, chaotic activity can stably persist across flexible subsets of these dimensions, thereby creating a highly microscopically dynamic yet macroscopically stable substrate for combinatorially expressive working memory. By modifying the variances of synaptic strengths between different neuron groups, one can moreover program complex, slowly evolving sequential computations mediated by dynamic variances, rather than means, of input currents to individual neurons. This causes neurons to consistently produce Poisson-like spike trains at all firing rates during general computations, a core feature of neurons in many brain areas yet which has historically been challenging to model without separate noise processes. This sheds light on how irregular neural dynamics during memory tasks can retain and transform flexible information stably enough to robustly support combinatorially organized behaviors.
+            </p>
+            
+            <h2>Online talks</h2>
+            
+            <p>
+            <a href="https://www.youtube.com/watch?v=Gb3OKK7yrG4">Path vectors: a simple neural code for flexible sequential memory</a> (1:16:12)
+            </p>
+            
+            <p>
+            <a href="https://www.youtube.com/watch?v=WBguC5LjmEU">Working memory for images atop irregular neural dynamics</a>
+            </p>
         </main>
     </div>
 </body>
