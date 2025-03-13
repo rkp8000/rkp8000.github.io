@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rich Pang</title>
+    
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,15 +33,52 @@
         <!-- Main Content -->
         <main class="main-content">
             
-            <h1> Estimating slow correlations from samples of limited duration </h1>
+            <h1>Estimating slow correlations from samples of limited duration</h1>
             
             <strong>
-            TL;DR: Many biological time-series have slow correlation timescales, but default estimators can greatly underestimate these correlations, even if you have enough data to resolve them. Normalizing by a triangle function removes the bias, but at the cost of potentially yielding an “invalid” correlation function estimate.
+            TL;DR: Many biological time-series have slow correlation timescales, but default estimators can greatly underestimate these correlations, even if you have enough data to resolve them. Normalizing by a triangle function removes the bias, but at the cost of potentially yielding an "invalid" correlation function estimate.
             </strong>
             
             <p>
-            Science is replete with time-series data, and we’d like to analyze this data to extract meaningful insight about the structure and function of the systems that produce them. 
+            Science is replete with time-series data, and we'd like to analyze this data to extract meaningful insight about the structure and function of the systems that produce them.
             </p>
+            
+            <p>
+            If you already know what correlation functions are, skip directly to the <a href="#">estimation section</a>.
+            </p>
+
+            <h2>Auto- and cross-correlation functions</h2>
+            
+            <p>
+            Suppose we have a stationary, univariate random process <span id="math-equation">\( X(t) ~ P[X(t)] \)</span>, and suppose we know the distribution <span id="math-equation">\( P[X(t)] \)</span>. Its autocorrelation function <span id="math-equation">\( R_x(\tau) \)</span>(sometimes written <span id="math-equation">\( R_{xx}(\tau) \)</span>) is defined as
+            </p>
+            
+            \[ R_x(\tau) \equiv \mathbb{E}[X(t)X(t+\tau)] \]
+            
+            <p>
+            where <span id="math-equation">\( \tau \)</span> is the time lag between two measurements and <span id="math-equation">\( \mathbb{E}[\dots] \)</span> is the expectation over samples <span id="math-equation">\( X(t) \)</span>. This function <span id="math-equation">\( R_x(\tau) \)</span> gives the expected product of the signal measured at two different timepoints separated by <span id="math-equation">\( \tau \)</span>. Stationarity means that <span id="math-equation">\( R_x(\tau) \)</span> is only a function of <span id="math-equation">\( \tau \)</span> and not of <span id="math-equation">\( t \)</span>.
+            </p>
+            
+            <p>
+            The autocovariance function <span id="math-equation">\( C_x(\tau) \)</span> is related to <span id="math-equation">\( R_x(\tau) \)</span> via
+            </p>
+            
+            \[ C_x(\tau) \equiv \textrm{E}[(X(t) - \mu_x)(X(t+\tau) - \mu_x)] = R_x(\tau) - \mu_x^2 \]
+            
+            <p>
+            i.e. it is the autocorrelation function of the signal after its mean <span id="math-equation">\( \mu_x \)</span> has been subtracted off. This function <span id="math-equation">\( C_x(\tau) \)</span> specifies more explicitly how the signal measured at two timepoints separated by <span id="math-equation">\( \tau \)</span> covary relative to the signal mean <span id="math-equation">\( \mu_x \)</span>. For zero-mean signals, however, <span id="math-equation">\( C_x(\tau) = R_x(\tau) \)</span>.
+            </p>
+            
+            <p>
+            A key property of an autocorrelation function in general is that <span id="math-equation">\( |R_x(\tau)| \ll R_x(0) \)</span>, i.e. the autocorrelation function is bounded by <span id="math-equation">\( R_x(0) \)</span>. And for a zero-mean signal <span id="math-equation">\( R_x(0) = C_x(0) \)</span> is just the variance <span id="math-equation">\( \text{Var}[X(t)] \)</span>, also independent of <span id="math-equation">\( t \)</span>.
+            </p>
+            
+            <p>
+            (Note: the autocovariance <span id="math-equation">\( C_x(\tau) \)</span> equals to the covariance between <span id="math-equation">\( x(t) \)</span> and <span id="math-equation">\( x(t+\tau) \)</span>, but the autocorrelation <span id="math-equation">\( R_x(\tau) \)</span> does not equal the Pearson correlation <span id="math-equation">\( R \)</span> between <span id="math-equation">\( x(t) \)</span> and <span id="math-equation">\( x(t+\tau) \)</span>. The Pearson correlation is the covariance scaled by the geometric mean of the variances, which restricts its value to lie between <span id="math-equation">\( [-1, 1] \)</span>, whereas values of the <span id="math-equation">\( R_x(\tau) \)</span> have no such restrictions.)
+            </p>
+            
+            <img src="xyz.png" width="300px" class="center" />
+            
             
         </main>
     </div>
