@@ -76,10 +76,238 @@
             <p>
             (Note: the autocovariance <span id="math-equation">\( C_x(\tau) \)</span> equals to the covariance between <span id="math-equation">\( x(t) \)</span> and <span id="math-equation">\( x(t+\tau) \)</span>, but the autocorrelation <span id="math-equation">\( R_x(\tau) \)</span> does not equal the Pearson correlation <span id="math-equation">\( R \)</span> between <span id="math-equation">\( x(t) \)</span> and <span id="math-equation">\( x(t+\tau) \)</span>. The Pearson correlation is the covariance scaled by the geometric mean of the variances, which restricts its value to lie between <span id="math-equation">\( [-1, 1] \)</span>, whereas values of the <span id="math-equation">\( R_x(\tau) \)</span> have no such restrictions.)
             </p>
+
+            <p>
+            Similarly, the cross-correlation function <span id="math-equation">\( R_{xy}(\tau) \)</span>  between two signals <span id="math-equation">\( X(t), Y(t) \)</span> is given by
+            </p>
+
+            \[ R_{xy}(\tau) \equiv \textrm{E}[X(t)Y(t+\tau)] \]
+
+            <p>
+            and their cross-covariance function <span id="math-equation">\( C_{xy}(\tau) \)</span> by
+            </p>
+
+            \[ C_{xy}(\tau) \equiv \textrm{E}[(X(t) -\mu_x)(Y(t+\tau) - \mu_y)] = R_{xy}(\tau) - \mu_x\mu_y. \]
+
+            <p>
+            One of the most important things a correlation function tells us about is the timescales in the signal. The autocorrelation function of white noise, for instance, is zero everywhere except at <span id="math-equation">\( \tau = 0 \)</span>:
+            </p>
             
-            <img src="xyz.png" width="300px" class="center" />
+            <img src="est_slow_corr_wn_delta_acor.png" width="300px" class="center" />
             
+            <p>
+            indicating that the signal is completely uncorrelated with itself at any nonzero time lag. For a signal that fluctuates more slowly, however, the autocorrelation function might look something like
+            </p>
+
+            <img src="est_slow_corr_smoothed_wn_acor.png" width="300px" class="center" />
+
+            <p>
+            which tells us that the signal is highly correlated with itself at neighboring timepoints and generally up to a timescale of about <span id="math-equation">\( \tau_0 \approx 10 \)</span> timesteps, but is uncorrelated with itself at any <span id="math-equation">\( \tau \gg \tau_0 \)</span>.
+            </p>
+
+            <p>
+            If we know the true distribution <span id="math-equation">\( P[X(t)] \)</span> or <span id="math-equation">\( P[X(t), Y(t)] \)</span>, auto- and cross-correlation functions are determined precisely, since they are explicit function(al)s of the known distribution. Oftentimes, however, we do not know the true distribution. Instead we want to estimate these correlation functions from a sample or collection of samples we observe, and which we model as coming from some underlying distribution we wish to understand.
+            </p>
+
+            <h2>Estimating correlation functions</h2>
+
+            <p>
+            Suppose for the moment that we have one univariate sample X1*(t) ≡ [x1*(1), x1*(2), ..., x1*(T1)], e.g. one sequence X1*(t) of T1 evenly spaced measurement from some recording device. We will assume this comes from some distribution P[X(t)]. 
+            </p>
+
+            <p>
+            Typically when estimating correlation functions one first normalizes the signal by subtracting off an estimate of its mean μx. If we have just one sample, this estimate will be given by
+            </p>
+
+            \[ \hat{\mu}_x = \frac{1}{T_1} \sum_{t=1}^{T_1} x_1^*(t). \]
             
+            <p>
+            For multiple samples X1*(t), X2*(t), ..., Xm*(t), e.g. taken in m different recording sessions, we would use
+            </p>
+
+            \[ \hat{\mu}_x = \frac{1}{\sum_i T_i} \sum_{i=1}^m \sum_{t = 1}^{T_i} x_i^*(t) \]
+            
+            <p>
+            i.e. the average mean estimate across all the recording sessions, weighted by the session durations.
+            </p>
+            
+            <p>
+            We can then construct our zero-mean signal
+            </p>
+
+            \[ X_i(t) = X_i^*(t) - \hat{\mu}_x \]
+            
+            <p>
+            which will be easier to work with, and which we'll focus on for the rest of the post. We'll also only focus on the autocorrelation function Rx(τ), although all the same reasoning applies to cross-correlation functions Rxy(τ) as well.
+            </p>
+
+            <h2>The direct estimator</h2>
+            
+            <p>
+            Given our one sample X1(t), the unbiased estimator for Rx(τ), which is just the covariance (because we removed the mean) between x(t) and x(t + τ), is given by
+            </p>
+
+            \[ \hat{R}_x(\tau) = \frac{1}{N_i-1} \sum_{t=1}^{N_i} x_i(t)x_i(t+\tau) \]
+            
+            <p>
+            which is just the <a href="https://en.wikipedia.org/wiki/Sample_mean_and_covariance">usual covariance estimator</a> computed by summing over the product of all Ni (where Ni = Ti - τ - 1) valid pairs (x(t), x(t+τ)) and dividing by Ni - 1.
+            </p>
+            
+            <p>
+            This we will refer to as the <strong>"direct" method</strong>, since it directly applies the usual sample covariance formula. (Note that for multiple samples, one collects all valid pairs (x(t), x(t+τ)) across all samples, and divides by Ntotal - 1, where Ntotal = T1 - τ - 1 + T2 - τ - 1 + ... .)
+            </p>
+            
+            <p>
+            The advantages of the direct method are that (1) it gives an unbiased estimate of Rx(τ), and (2) it's pretty easy to deal with NaNs, since you can just ignore all the (x(t), x(t+τ)) pairs that include a NaN and decrement Ntotal accordingly. A disadvantage, however, is that it is quite slow, since you have to loop explicitly over all τ.
+            </p>
+
+            <h2>The standard estimator</h2>
+
+            <p>
+            A faster method, employed all over signal processing is use the estimator
+            </p>
+
+            \[ \hat{R}_x^{st}(\tau) = \frac{1}{T_i - 1} \sum_{t=1}^{T_i-\tau} x_i(t)x_i(t+\tau) = \frac{1}{T_i - 1} x(t) \ast x(-t) \]
+            
+            <p>
+            which estimates the correlation function via the convolution of x(t) and x(-t). We'll call this the standard estimator. The advantage of the standard estimator is that <a href="https://en.wikipedia.org/wiki/Convolution_theorem">convolutions can be done via the Fast Fourier Transform (FFT)</a>, which makes for a much faster algorithm, especially when we have long time-series or high sampling rates.
+            </p>
+            
+            <p>
+            <strong>The key difference between the direct and the standard estimator is that the latter is normalized by Ti-1, which is not a function of τ</strong>. This is how SciPy's <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.correlate.html"><code>scipy.signal.correlate</code></a> works, along with MATLAB's <a href="https://www.mathworks.com/help/matlab/ref/xcorr.html"><code>xcorr</code></a> function with default settings. In fact, by default these algorithms don't even divide by Ti-1, but instead return an "unscaled" version of the covariance function:
+            </p>
+
+            \[ \hat{R}_x^{st}(\tau) = \sum_{t=1}^{T_i-\tau} x_i(t)x_i(t+\tau) = x(t) \ast x(-t). \]
+            
+            <p>
+            While this is quite fast, as well as quite useful in many applications, the downsides are that (1) it's hard to deal with NaNs, since this will generally preclude performing a straightforward FFT, and (2) this estimator can introduce a substantial bias, since the normalization is the same for all τ, even though we sum over different numbers of (x(t), x(t+τ)) pairs for different τ.
+            </p>
+            
+            <p>
+            Unfortunately, the NaN problem is only solved by using the direct method (or via interpolating first, but that's another story), but we can solve the bias problem quite simply.
+            </p>
+
+            <h2>The "triangle" estimator</h2>
+            
+            <p>
+            To remove the bias from the standard estimator, we can just divide the result of the standard estimator by a normalization function that does depend on τ, so as to match the direct estimator. In other words, we can use the estimator
+            </p>
+
+            \[ \hat{R}_x^{tri}(\tau) = \frac{\hat{R}_x^{st}(\tau)}{T_i - |\tau| - 1} = \frac{x(t) \ast x(-t)}{T_i - |\tau| - 1} . \]
+            
+            <p>
+            which we'll call <strong>the triangle estimator</strong> since the normalization Ni(τ) = Ti - |τ| - 1 is a triangular function of τ, and provides an unbiased estimate of Rx(τ) since it correctly accounts for the different number of terms in the sum for different time lags τ.
+            </p>
+            
+            <p>
+            Therefore, if you want an unbiased correlation function estimate from a sample time-series, use the triangle estimator. (Note: you'll have to do this yourself in Python, or specify "unbiased" as the "scaleopt" argument of MATLAB's xcorr).
+            </p>
+
+            <h2>Why the default estimator is biased</h2>
+
+            <p>
+            It may seem strange that signal processing packages use a biased estimator by default, when the unbiased one is so easy to compute. So why is the biased one the standard?
+            </p>
+
+            <p>
+            First, if your recording time far exceeds the timescales you expect in your signal, it doesn't really make a difference. For instance, if Xi(t) were a 10 kHz, 100-second recording of a noise-driven RC circuit with a time constant τRC somewhere in the range of 1-10 ms, then we would have that
+            </p>
+
+            \[ \frac{N_i(0 ms)}{N_i(100 ms)} = \frac{100 s - 0 ms - .1 ms}{100 s - 10 ms - .1 ms} = \frac{99.999 s}{99.989 s} \approx 1 \]
+            
+            <p>
+            i.e. the normalization factor in the whole range from 0-100 ms (which should be plenty to estimate a 10 ms time constant) barely changes at all, due to the long recording time. Cases like this are common in signal processing, and so even though the estimator is a bit biased, <strong>if your recording time greatly exceeds the timescales you expect in the signal, it really doesn't make much difference.</strong>
+            </p>
+            
+            <p>
+            Second, and a bit more fundamental, is that <strong>the correlation function estimated via the unbiased triangle estimator can end up being an invalid correlation function.</strong> In particular, one can end up with an estimate where
+            </p>
+
+            \[ \hat{R}_x^{tri}(0) < \hat{R}_x^{tri}(\tau) \]
+                
+            <p>
+            for some τ ≠ 0, which breaks the important property that Rx(0) ≥ |Rx(τ)| for all τ. This shouldn't be too surprising, since when normalizing at τ = 0 we divide by a very large number and when normalizing at very large τ we divide by a much small number, which can drastically amplify small fluctuations in the estimator.
+            </p>
+            
+            <p>
+            Depending on what you're trying to do, this may or may not be a problem. Having an invalid correlation function, however, can greatly interfere with prediction or sampling, i.e. you could not use an invalid correlation function to specify a valid random process P[X(t)]. Since these are common use cases in signal processing, often a valid yet biased correlation function estimate is preferred over an unbiased but invalid estimate.
+            </p>
+
+            <h2>A realistic case where this makes a difference</h2>
+                
+            <p>
+            It follows that the biased estimator really only causes problems when the correlation timescales in the data are on the same order as the sample duration. Now, you might be thinking that if we're in that regime we have no hope of estimating correlations at those timescales in the first place, since we simply don't have enough data. While the triangle estimate of Rx(400) from a 500 timestep sample may be unbiased, it will have huge variance, since if the signal really is significantly correlated over 400 timesteps, then the 99 timesteps available to the estimator at τ=400 will be far from i.i.d., so we'll have too few effective independent samples for anything useful anyway.
+            </p>
+            
+            <p>
+            While that is perfectly sensible, <strong>one case where this matters is when we have a large number of short samples of our data</strong>. In fact, this is quite common in biology, e.g. if we have data across many short experimental "trials", if we're computing behavioral correlations from video data with frequent occlusion periods, if we're studying brain activity conditioned on a specific brief behavioral states, etc.
+            </p>
+            
+            <p>
+            To be concrete, let's see how this all plays out in the following scenario. Suppose we have a single ground-truth signal X(t) of T = 500K timesteps, with an intrinsic timescale of about 300 timesteps (constructed here by smoothing white noise with a 300-timestep squared exponential filter):
+            </p>
+
+            <img src="est_slow_corr_signal_example.png" width="800px" class="center" />
+
+            <p>
+            As you can see, the signal is smooth when we zoom in far enough, hence far from i.i.d. close up. Suppose, however, that we're lucky enough to measure the full signal across all 500K timesteps, and we estimate the correlation function from <span id="math-equation">\( -500 < \tau < 500 \)</span> using either the direct, standard, or triangle estimators. In this case, the estimator we use does not really matter, as the estimates are extremely similar:
+            </p>
+
+            <img src="est_slow_corr_std_tri_comparison_no_diff.png" width="300px" class="center" />
+                
+            <p>
+            Suppose, however, that we only observe X(t) for 500 timesteps at a time, and that these 500-timestep fragments are randomly distributed throughout the full signal. For instance, maybe we're interested some slow metabolic process only when the animal is awake, but the animal is only awake for 500 timesteps at a time. Or we're interested in some state-dependent neural computation, but the state of interest only occurs in about 500-timestep windows.
+            </p>
+
+            <p>
+            As usual, we first estimate the mean μx across all samples. We then use this to estimate the correlation function Rx(τ) from each 500-timestep sample. Using our three different methods produces something like:
+            </p>
+
+            <img src="est_slow_corr_std_tri_comparison_high_var.png" width="500px" class="center" />
+
+            <p>
+            Now we see clearly that the estimates differ rather wildly both across individual samples (since each sample contains only a small, nonrepresentative part of the full signal), as well as between the standard and triangle estimators (and only the triangle estimator matches the direct estimator).
+            </p>
+
+            <p>
+            Notably, for τ near 500, the standard estimator estimates Rx(τ) ≈ 0 for all samples, even though we know Rx(500) should be around 40 (see the estimate from full signal above). On the other hand, the standard biased estimator has very low variance around τ near 500, whereas the triangle estimate, while unbiased, is kind of all over the place for Rx(τ ≈ 500). Moreover, we can see in the sample X5 that the estimated correlation function is in fact an invalid correlation function, since Rx(100) > Rx(0). Thus, if you wanted to use an unbiased estimate of the correlation function for sampling purposes, you would run into trouble.
+            </p>
+
+            <p>
+            Nonetheless, if we have sufficiently many samples, even if they are of short duration, we can still construct a good estimate by averaging the estimated correlation functions over the samples:
+            </p>
+
+            <img src="est_slow_corr_std_tri_comparison_short_frags.png" width="300px" class="center" />
+
+            <p>
+            Here we find that the triangle estimator does a much better job at capturing the nonzero slow correlations present in the signal and matches the direct estimate from the full signal much better than does the standard estimator. (Although note that there is still fairly high variance at the edges, since Ni is so small.)
+            </p>
+
+            <p>
+            There will be variation, of course, in the averaged triangle estimate across different renditions of this "experiment". E.g. running it a few times (for 200 x 500-timestep windows taken from a 500K timestep signal) we get
+            </p>
+
+            <img src="est_slow_corr_std_tri_comparison_short_frags_1a.png" width="300px" class="center" />
+                
+            <img src="est_slow_corr_std_tri_comparison_short_frags_1b.png" width="300px" class="center" />
+                
+            <img src="est_slow_corr_std_tri_comparison_short_frags_1c.png" width="300px" class="center" />
+                
+            <p>
+            etc. But in all cases the triangle estimator provides a far better match to the correlation function estimated from the full signal, whereas the standard estimator systematically underestimates the slow correlations.
+            </p>
+                
+            <p>
+            Time-series analysis is a crucial part of science. The life sciences in particular are full of slow proceses, and when analyzing data it is important to understand how the details of your analyses affect your results and interpretations. Overall, I hope that this post has helped clarify how different correlation function estimators operate, and how they can hide or reveal interesting features of your data in different circumstances.
+            </p>
+
+            <p>
+            You can view or download the Jupyter notebook accompanying this post <a href="https://github.com/rkp8000/73CHN1C4L_BL06/blob/master/20221102_cov_estimation.ipynb">here</a>.
+            </p>
+
+            <p>
+            Happy sciencing.
+            </p>
         </main>
     </div>
 </body>
