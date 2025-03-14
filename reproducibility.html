@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rich Pang</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Rich Pang</h2>
+            <ul>
+                <li><a href="#">research</a></li>
+                <li><a href="#">publications</a></li>
+                <li><a href="#">tutorials</a></li>
+                <li><a href="#">software</a></li>
+                <li><a href="#">tips & tricks</a></li>
+                <li><a href="#">reproducibility</a></li>
+                <li><a href="#">journals</a></li>
+                <li><a href="#">github</a></li>
+                <li><a href="#">scholar</a></li>
+            </ul>
+    
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <h1>Easy computational reproducibility</h1>
+            
+            <p>
+            Reproducibility is key to science since it helps findings stand the test of time. Computational research should be perfectly reproducible, as it's built entirely from functions and procedures written in code. But how does one actually make one’s work reproducible? While courses and guides offer various solutions, the process can still feel daunting. To ease the task I therefore propose a simple rule of thumb that can be applied incrementally and at one’s leisure, yet which should still be quite effective.
+            </p>
+            
+            <p>
+            Prioritize writing understandable and believable code</strong>, instead of code reusable and extensible by others. While many efforts have focused on the latter, it can take unreasonable time to do correctly and relies on maintenance of the project software. Writing understandable and believable code, however, is less demanding. Further, it yields a product that can be crystallized and shelved in a set of text files, yet which still provides an explicit guide for re-running the computations it contains.
+            </p>
+
+            <p>
+            To write understandable and believable code, aim for each piece of your codebase to be <strong>clear in what it’s doing</strong> and <strong>convincing that it’s doing what it claims</strong>. This means clean and obvious code over long documentation; multiple bite-sized statements over complex one-liners; key demos or plots of scientific controls rather than extensive unit tests; etc. Given this, as long as people who absolutely need to can run your code, don’t fret so much over whether the average laptop user can as well.
+            </p>
+
+            <p>
+            What are the benefits of this approach? First, <strong>it requires no initial overhead</strong>--no courses or new software or extensive project restructuring are required. Instead, <strong>one can work incrementally</strong>, improving bits and pieces of the code in one's spare moments, yet with each change concretely increasing reproducibility. Second, this type of reproducibility may actually be <em>more</em> useful for ensuring we’ve done our science right. After all, what use is re-creating someone’s figures if their origin is impenetrable? A better benchmark may be that <strong>someone familiar with your science should be able to easily write a new version of your code using the original as a guide</strong>, which will best occur when this guide is understandable and believable. In other words, <strong>think of your code in the long term as a precision methods section</strong>, rather than a downloadable experimental apparatus.
+            </p>
+
+            <p>
+            All this applies to the 99% case of computational science</strong>, where one writes one-off code to address a specific question. Scientific software meant for widespread use should indeed be reusable by others and well maintained, and one should of course feel free to make code easy to download and run for pedagogical or exploratory purposes. However, if you're pressed for time but still want to make sure your work holds up in the long run, focus first on making your code as clear and convincing as can be. And coincidentally, I’d argue that if the time <em>does</em> arrive to reuse or extend it, this approach will make it far easier to do so quickly and correctly.
+            </p>
+
+        </main>
+    </div>
+</body>
+</html>
+
+
+
+

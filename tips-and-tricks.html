@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rich Pang</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Rich Pang</h2>
+            <ul>
+                <li><a href="#">research</a></li>
+                <li><a href="#">publications</a></li>
+                <li><a href="#">tutorials</a></li>
+                <li><a href="#">software</a></li>
+                <li><a href="#">tips & tricks</a></li>
+                <li><a href="#">reproducibility</a></li>
+                <li><a href="#">journals</a></li>
+                <li><a href="#">github</a></li>
+                <li><a href="#">scholar</a></li>
+            </ul>
+    
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <h1>How to improve your computational research experience</h1>
+
+            <p>
+Some tips and tricks I’ve learned in my PhD and postdoc for moving research forward more quickly. May they make your sciencing more efficient and enjoyable.
+            </p>
+
+            <h2>Project development</h2>
+
+            <p>
+            <strong>Ask what, then why, then how.</strong> At any stage of a project make sure you can define exactly what you're trying to do. Then make sure you can justify why you're trying to do it. Only then should you figure out <em>how</em> to do it. A complex implementation that isn't necessary in the end saps up time and effort. This holds at all scales, from writing a function to making a figure to designing a multi-year research program.
+            </p>
+            
+            <p>
+            <strong>Make predictions.</strong> Before looking at an analysis or simulation result always make a prediction about what you expect to see and why (or multiple predictions if reason exists to suspect multiple outcomes). If your result matches your prediction this can be taken as (some) evidence that you understand the system you're studying. If your result deviates from your prediction, having made the prediction beforehand ensures the deviation is unexpected and interesting.
+            </p>
+            
+            <p>
+            <strong>Judge results using "SIM" criteria (sound, informative, meaningful).</strong> To check whether a result is scientifically valuable, ask whether it is (1) sound—you don't have any significant errors (statistical or otherwise) in your work, (2) informative—one could have expected a different result given reasonable background knowledge, and (3) meaningful—it moves the field toward a more unified understanding of the system (e.g. by drawing new connections or questioning existing theory). Learning to judge the value of your results greatly simplifies deciding when to build on what you have vs when to change direction. (Note: this regards scientific value; clinical or engineering value can have more varied definitions.)
+            </p>
+            
+            <p>
+            <strong>Make plans.</strong> A research plan is much easier to understand, evaluate, and rework than a codebase. Start with the big picture then break things down. The more meticulously you decompose your plan into small, tangible tasks the faster you can assess and iron out its uncertainties. A concrete plan eases its undertaking, reduces avoidable risks, make progress unfold more linearly, and increases accuracy of timeline estimates.
+            </p>
+            
+            <p>
+            <strong>Assess benefits before costs.</strong> Everything has a cost but not everything has a benefit. Visualize exactly what you expect an experiment, simulation, or analysis to yield before considering what's required to undertake it. What specific plots will you make? How will you write down your conclusions from them? Only once you're sure a direction has a decent chance of yielding a valuable outcome should you evaluate the resources it will require then decide whether it's worth pursuing.
+            </p>
+            
+            <p>
+            <strong>But expect the unexpected</strong>. Even perfect research plans yield unexpected findings; if they didn't, science would be a lot less interesting. Be prepared for the unexpected and stay flexible enough to change your plans if doing so seems worthwhile. However, be aware of whether your plans are endlessly meandering vs converging to something concrete and contained.
+            </p>
+            
+            <p>
+            <strong>Beware of complexity.</strong> It lurks at every corner and usually makes life harder. It can be tempting to use sophisticated methods just because they're cutting-edge and popular, but approaching a question as simply as possible makes your science cleaner, faster, more reliable, and easier to refine along the way. <em>Some</em> complexity is usually required, of course, but proceed with heavy caution when adding moving parts to your goals or methods.
+            </p>
+            
+            <p>
+            <strong>Deviate consciously from the above.</strong> Of course there is a time and place in science for just following your nose. Strong intuitions are a key part of creativity. However, in the reality of finite timelines it is helpful to be aware of when you're deviating from more systematic procedure, especially if you find yourself running in circles for a while.
+            </p>
+            
+            <h2>Code</h2>
+
+            <p>
+            <strong>Keep projects self-contained.</strong> To the best of your ability, keep one directory per project. Ideally it contains your code, data, reference list, and writing. This greatly simplifies life since you needn't gather up scattered materials or dependencies to start working. It also makes projects much easier to come back to after a break, as well as to copy to a new computer or share with others. If you must split projects into multiple directories, make sure they're aptly named to minimize confusion.
+            </p>
+            
+            <p>
+            <strong>Evolve your code incrementally</strong>. The fastest and most reliable way to get a working codebase (whether from scratch or from a different codebase) is to evolve it through incremental changes, making sure it does exactly what it's supposed to at every step. The alternative—writing a full codebase then debugging it—is much more unpredictable and leads to far more temptation to just make the error messages go away rather than ensuring proper function.
+            </p>
+            
+            <p>
+            <strong>Inspect your code line-by-line.</strong> It turns out that re-reading your code line-by-line is an <a href="http://www.ifsq.org/research.html">excellent way</a> to find errors. It also forces you to go over exactly how your code works again before running it, which helps internalize your understanding of it. Moreover, it's a clean debugging method that doesn't add any moving parts. It also takes way less time than you might think.
+            </p>
+            
+            <p>
+            <strong>Test your code like a scientist.</strong> After inspecting your codebase, check that it works correctly by treating it like a laboratory, and write only key tests that validate its scientific function. In other words, <em>write tests that serve as positive and negative controls</em>, with the details depending on the project. Don't get caught up in commercial software testing strategies—most don't apply to research unless you're developing software you plan to share with others and actively maintain.
+            </p>
+            
+            <p>
+            <strong>You don't need software for version control.</strong> The simplest useful way to version-control your project is to save and back up a complete copy of your project directory every day (excluding data and extra-large files), with the date in the copied directory's name and a short note in a logbook of the changes you made that day. To a modern computer, code files are peanuts, and you won't come close to running out of space. If you want to use Git instead, that's great, but it's often overkill for scientific coding unless you truly expect others to extend your codebase. Usually the most you'll need is to steal a few lines from past code or see what made it run.
+            </p>
+            
+            <p>
+            <strong>Beware of over-automation.</strong> The more you automate things the easier it is to forget what's going on under the hood and mistakenly trust the automation when you shouldn't. A short sequence of clicks and keypresses that keeps important functionality in one's awareness is far superior to a single click that runs everything in a black box.
+            </p>
+
+            <p>
+            <strong>Use consistent units within a project</strong>. Even if it means you have a lot of scientific notation floating around, the unambiguity will be worth it.
+            </p>
+            
+            <h2>Data</h2>
+
+            <p>
+            <strong>Keep your data in one place.</strong> Moving code to data is typically easier than the reverse. Unless you absolutely have to, don't pull subsets of your data from a server to your laptop to test your code on it; this is another moving part to break, and unnecessarily scatters your project across machines. If possible, run your code directly on the computer where the data live.
+            </p>
+            
+            <p>
+            <strong>Choose file formats readable by both humans and computers.</strong> This way you can quickly glance at your files to ensure they're structured as expected but also process them easily with code. CSV files with column headers, for instance, are easy to read by eye and readily manipulated by many programming languages. Put in the overhead to decide how to store your data. Changing formats later has high potential for headaches and accidental data loss.
+            </p>
+            
+            <p>
+            <strong>Back up your data.</strong> Obviously. But also do routine checks to ensure you can rapidly restore it if you need to. Note: backing up data generally requires different methods from backing up code and writing.
+            </p>
+            
+            <h2>Writing</h2>
+
+            <p>
+            <strong>Keep a living abstract of your project.</strong> This is your formal elevator pitch. It should contain the context, motivation, approach, results, and significance of your work. Even if the work is still in progress, make sure  potential outcomes can be captured in a compelling abstract. Otherwise it's time to consider new directions.
+            </p>
+            
+            <p>
+            <strong>Use as few words as possible.</strong> As long as you don't sacrifice clarity or crucial information, more concise writing empowers your exposition and keeps readers focused. This holds at all scales, from replacing adverb phrases with single verbs, to entire pages with single sentences. It can hurt to delete so much, but your audience will appreciate it.
+            </p>
+            
+            <p>
+            <strong>Framing is everything</strong>. The storyline with which you contextualize your work shapes its meaning to your reader. Make sure you understand exactly what questions your results do and don't answer, and decide accordingly how you'll present them. Even if the end result looks clean and simple, getting there is one of the hardest parts of science so don't fret if it takes some time to get it right.
+            </p>
+            
+            <p>
+            <strong>Know your audience</strong>. Different readers have different priors over what they expect to read. This can range from differences in notation to differences in how to approach a question to differences in what questions one even considers significant. Working in alignment with your target audience's priors is crucial to effectively communicate your ideas. Misalignment between your writing and your audience's priors at best strains the effort the reader must expend to understand your work and at worst causes your message to be immediately lost in translation.
+            </p>
+            
+            <h2>Presenting</h2>
+
+            <p>
+            <strong>Choose key words and phrases carefully.</strong> Words and phrases have implicit associations, so be aware of how different people might interpret them. The right phrase for a phenomenon can inspire comprehension and appreciation, and the wrong one confusion and distrust. Choose metaphors carefully as well. Certain metaphors clarify and empower, but others confuse and distract; choose the simplest ones possible that accurately mirror the core aspects of the concepts you wish to convey. Again, consider the priors of your audience.
+            </p>
+            
+            <p>
+            <strong>Keep slides distraction-free.</strong> Presentations are highly time-limited, so try not to invite irrelevant questions from your audience. If you don't want to talk about something, remove it from your slides. This doesn't mean you should hide things, deceive, or be close-minded to unexpected questions, but when time is of the essence it's helpful when everyone stays focused.
+            </p>
+            
+            <p>
+            <strong>Concisely state key ideas in text on slides.</strong> You might not want to do this for a TED talk, but most audiences drift in and out of attention, especially if your presentation is just one in a longer line-up. It can thus be useful to give your audience something to quickly reread if they momentarily zone out while you're talking. However, don't go overboard, and never include text you're not going to read out loud, or at least explicitly refer to.
+            </p>
+            
+            <p>
+            <strong>Repeat yourself.</strong> Generating clarity is different in writing vs in presentations. In writing, a reader can return to past sentences as needed, so repetition bloats exposition. Presentations unfold linearly, however, and since listeners can't jump back in time to what you said before, it's useful to repeat key phrases and ideas. Clarity is first and foremost.
+            </p>
+            
+            <p>
+            <strong>Practice.</strong> Practicing more will not only make you less nervous for the actual talk, but it will help you identify and fix any of its weak points. Practice in front of friends or pets at first to get the hang of saying everything out loud, then in front of colleagues that can give good criticism.
+            </p>
+            
+            <p>
+            <strong>Practice not practicing.</strong> If you get to the point where you have to give a lot of presentations it can be far more efficient to not practice. However, this requires being able to accurately predict how you will present a slide deck/chalk talk, including how long it will take to get through your content. A couple specific tips are (1) write out a rough script ahead of time and estimate how long it will take to deliver (at about 110-150 words per minute), and (2) write your slides in a way that sections can be dynamically compressed or expanded as the presentation unfolds (e.g. if the audience asks a lot of questions in the middle).
+            </p>
+            
+            <h2>Miscellaneous</h2>
+
+            <p>
+            <strong>Manage passwords in your head.</strong> While password managers have good intentions, they're still a single failure point and their databases can be hacked. Come up with a simple algorithm to make unique passwords in your head instead. For example, memorize a "private key"—like a fixed, random string of characters, maybe the first letters of the words in a poem—and an easy way to mix it with a site-dependent "public key"—e.g. the site's name—so that every site gets a password that is both unique and easy to generate on the fly. This is also useful if you have to log into accounts on a new machine.
+            </p>
+            
+        </main>
+    </div>
+</body>
+</html>
+
+
+
+
