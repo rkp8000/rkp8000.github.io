@@ -1,6 +1,6 @@
 // script.js
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("sidebar.html")
+  fetch("/sidebar.html")
     .then(response => response.text())
     .then(data => {
       document.getElementById("sidebar").innerHTML = data;
