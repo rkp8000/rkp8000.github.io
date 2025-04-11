@@ -7,7 +7,7 @@ body {
 
 #sidebar {
   width: 200px;
-  background-color: #4201ab;
+  background-color: #3D52A0;
   padding: 10px;
   box-sizing: border-box;
   color: #999999;
@@ -20,7 +20,7 @@ body {
 
 #content {
   width: 800px;
-  background-color: #498293;
+  background-color: #8697C4;
   padding: 20px;
   box-sizing: border-box;
   overflow-wrap: break-word;
