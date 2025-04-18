@@ -73,13 +73,13 @@
             One of the most important things a correlation function tells us about is the timescales in the signal. The autocorrelation function of white noise, for instance, is zero everywhere except at <span id="math-equation">\( \tau = 0 \)</span>:
             </p>
             
-            <img src="est_slow_corr_wn_delta_acor.png" width="300px" class="center" />
+            <img src="blog/est_slow_corr_wn_delta_acor.png" width="300px" class="center" />
             
             <p>
             indicating that the signal is completely uncorrelated with itself at any nonzero time lag. For a signal that fluctuates more slowly, however, the autocorrelation function might look something like
             </p>
 
-            <img src="est_slow_corr_smoothed_wn_acor.png" width="300px" class="center" />
+            <img src="blog/est_slow_corr_smoothed_wn_acor.png" width="300px" class="center" />
 
             <p>
             which tells us that the signal is highly correlated with itself at neighboring timepoints and generally up to a timescale of about <span id="math-equation">\( \tau_0 \approx 10 \)</span> timesteps, but is uncorrelated with itself at any <span id="math-equation">\( \tau \gg \tau_0 \)</span>.
@@ -227,13 +227,13 @@
             To be concrete, let's see how this all plays out in the following scenario. Suppose we have a single ground-truth signal X(t) of T = 500K timesteps, with an intrinsic timescale of about 300 timesteps (constructed here by smoothing white noise with a 300-timestep squared exponential filter):
             </p>
 
-            <img src="est_slow_corr_signal_example.png" width="800px" class="center" />
+            <img src="blog/est_slow_corr_signal_example.png" width="800px" class="center" />
 
             <p>
             As you can see, the signal is smooth when we zoom in far enough, hence far from i.i.d. close up. Suppose, however, that we're lucky enough to measure the full signal across all 500K timesteps, and we estimate the correlation function from <span id="math-equation">\( -500 < \tau < 500 \)</span> using either the direct, standard, or triangle estimators. In this case, the estimator we use does not really matter, as the estimates are extremely similar:
             </p>
 
-            <img src="est_slow_corr_std_tri_comparison_no_diff.png" width="300px" class="center" />
+            <img src="blog/est_slow_corr_std_tri_comparison_no_diff.png" width="300px" class="center" />
                 
             <p>
             Suppose, however, that we only observe X(t) for 500 timesteps at a time, and that these 500-timestep fragments are randomly distributed throughout the full signal. For instance, maybe we're interested some slow metabolic process only when the animal is awake, but the animal is only awake for 500 timesteps at a time. Or we're interested in some state-dependent neural computation, but the state of interest only occurs in about 500-timestep windows.
@@ -243,7 +243,7 @@
             As usual, we first estimate the mean μx across all samples. We then use this to estimate the correlation function Rx(τ) from each 500-timestep sample. Using our three different methods produces something like:
             </p>
 
-            <img src="est_slow_corr_std_tri_comparison_high_var.png" width="500px" class="center" />
+            <img src="blog/est_slow_corr_std_tri_comparison_high_var.png" width="500px" class="center" />
 
             <p>
             Now we see clearly that the estimates differ rather wildly both across individual samples (since each sample contains only a small, nonrepresentative part of the full signal), as well as between the standard and triangle estimators (and only the triangle estimator matches the direct estimator).
@@ -257,7 +257,7 @@
             Nonetheless, if we have sufficiently many samples, even if they are of short duration, we can still construct a good estimate by averaging the estimated correlation functions over the samples:
             </p>
 
-            <img src="est_slow_corr_std_tri_comparison_short_frags.png" width="300px" class="center" />
+            <img src="blog/est_slow_corr_std_tri_comparison_short_frags.png" width="300px" class="center" />
 
             <p>
             Here we find that the triangle estimator does a much better job at capturing the nonzero slow correlations present in the signal and matches the direct estimate from the full signal much better than does the standard estimator. (Although note that there is still fairly high variance at the edges, since Ni is so small.)
@@ -267,11 +267,11 @@
             There will be variation, of course, in the averaged triangle estimate across different renditions of this "experiment". E.g. running it a few times (for 200 x 500-timestep windows taken from a 500K timestep signal) we get
             </p>
 
-            <img src="est_slow_corr_std_tri_comparison_short_frags_1a.png" width="300px" class="center" />
+            <img src="blog/est_slow_corr_std_tri_comparison_short_frags_1a.png" width="300px" class="center" />
                 
-            <img src="est_slow_corr_std_tri_comparison_short_frags_1b.png" width="300px" class="center" />
+            <img src="blog/est_slow_corr_std_tri_comparison_short_frags_1b.png" width="300px" class="center" />
                 
-            <img src="est_slow_corr_std_tri_comparison_short_frags_1c.png" width="300px" class="center" />
+            <img src="blog/est_slow_corr_std_tri_comparison_short_frags_1c.png" width="300px" class="center" />
                 
             <p>
             etc. But in all cases the triangle estimator provides a far better match to the correlation function estimated from the full signal, whereas the standard estimator systematically underestimates the slow correlations.

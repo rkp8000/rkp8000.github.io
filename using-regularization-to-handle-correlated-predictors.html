@@ -35,7 +35,7 @@
             Strangely, this can occur even when you have many more independent data points than filter weights, so it's not caused by overfitting. In fact such an estimate may actually predict held-out data pretty well. It's quite messy and hard to interpret, however, and repeating the fit on different training data can yield wildly different estimates.
             </p>
             
-            <img src="reg_corr_predictors_filter_1.png" width="300px" class="center" />
+            <img src="blog/reg_corr_predictors_filter_1.png" width="300px" class="center" />
             
             <p>
             Why does this occur? And what can we do about it?
@@ -75,7 +75,7 @@
             Let's generate 200 data points and plot <span id="math-equation">\( x_2 \)</span> vs <span id="math-equation">\( x_1 \)</span>, <span id="math-equation">\( y \)</span> vs <span id="math-equation">\( x_1 \)</span>, and <span id="math-equation">\( y \)</span> vs <span id="math-equation">\( x_2 \)</span>:
             </p>
         
-            <img src="reg_corr_predictors_demo_data_1.png" width="800 px" class="center" />
+            <img src="blog/reg_corr_predictors_demo_data_1.png" width="800 px" class="center" />
             
             <p>
             The ground truth weight vector <span id="math-equation">\( \mathbf{w} = (1, 1)^T \)</span> is shown in red.
@@ -99,7 +99,7 @@
             and so on. Thus, effectively there isn't one best weight estimate, but a whole space of equally good estimates, defined by the line <span id="math-equation">\( w_1 + 2w_2 = 3 \)</span>:
             </p>
             
-            <img src="reg_corr_predictors_demo_data_2.png" width="400 px" class="center" />
+            <img src="blog/reg_corr_predictors_demo_data_2.png" width="400 px" class="center" />
             
             <p>
             Which particular choice of <span id="math-equation">\( \mathbf{w} \)</span> gets picked out by unregularized linear regression will depend much more on the particular noise instantation ηy than the relationship between <span id="math-equation">\( x_1 \)</span>, <span id="math-equation">\( x_2 \)</span>, and <span id="math-equation">\( y \)</span>.
@@ -109,7 +109,7 @@
                 If we use <a href="https://scikit-learn.org/stable/">scikit-learn</a>'s <code>linear_model.LinearRegression</code> to find the best estimate <span id="math-equation">\( \hat{w} \)</span> given different <span id="math-equation">\( \eta_y \)</span> we get a wide range of answers (cyan), all lying on the line <span id="math-equation">\( w_1 + 2w_2 = 3 \)</span>:
             </p>
             
-            <img src="reg_corr_predictors_demo_data_3.png" width="300 px" class="center" />
+            <img src="blog/reg_corr_predictors_demo_data_3.png" width="300 px" class="center" />
             
             <p>
             Importantly, <strong>none of these estimates are bad at predicting held-out data</strong>. The weight estimator here just has a high variance. If many predictors are involved, e.g. inputs at different lags in a time-series dataset, this can make the recovered weight vectors or filters messy and hard to interpret, even if they generalize quite well.
@@ -173,7 +173,7 @@
             The difference between Ridge and Lasso may seem a bit subtle but yields qualitative differences in the regression results. If we color the solution space for <span id="math-equation">\( \mathbf{w} \)</span> by their L2 (Ridge) or L1 (Lasso) norm, we can see that the L2 norm is minimized at the intersection (green star) of the solution space for <span id="math-equation">\( \mathbf{w} \)</span> and the circle around the origin that touches it, whereas the L1 norm is minimized where the diamond around the origin touches the solution space for <span id="math-equation">\( \mathbf{w} \)</span>.
             </p>
             
-            <img src="reg_corr_predictors_ridge_lasso_1.png" width="800px" class="center" />
+            <img src="blog/reg_corr_predictors_ridge_lasso_1.png" width="800px" class="center" />
             
             <p>
             This is because circles (or spheres in higher dimensions) correspond to sets of weight vectors with constant L2 norm, whereas diamonds correspond to sets of weight vectors with constant L1 norm. The L2 or L1 norm of any <span id="math-equation">\( \mathbf{w} \)</span> in our solution space is in turn given by the "radius" of the circle or diamond that intersects it. The diamond with radius 1.5, for instance, is the smallest one that intersects this solution space, and therefore the minimum L1 norm of <span id="math-equation">\( \mathbf{w} \)</span> on this space is 1.5.
@@ -181,7 +181,7 @@
             
             We can also show a larger region of the unregularized, Ridge, or Lasso loss functions using the equations above, where hotter colors represent larger loss and the green star shows the minimum:
             
-            <img src="reg_corr_predictors_ridge_lasso_2.png" width="800px" class="center" />
+            <img src="blog/reg_corr_predictors_ridge_lasso_2.png" width="800px" class="center" />
             
             <p>
             The loss landscape for unregularized regression does not have a well defined minimum, which is why weight estimates given different noise instantiations have such high variance. The Ridge and Lasso losses, however, are minimized at a single point, which will dramatically reduce this variance.
@@ -197,7 +197,7 @@
             Let's estimate <span id="math-equation">\( \mathbf{w} \)</span> for our toy dataset using scikit-learn's <code>linear_model.Ridge</code> or <code>linear_model.Lasso</code> methods, for several noise instantiations:
             </p>
             
-            <img src="reg_corr_predictors_ridge_lasso_3.png" width="800px" class="center" />
+            <img src="blog/reg_corr_predictors_ridge_lasso_3.png" width="800px" class="center" />
 
             <p>
             As we can see, the variance of the Ridge and Lasso estimators drops almost to zero. The Ridge estimate points along the long axis of the input distribution, "balancing" the weights in accordance with their variance and predictive capacity. Lasso, on the other hand, assigns a nonzero weight only to <span id="math-equation">\( x_2 \)</span>, "sparsifying" the weight estimate as we predicted from the arguments above. For a larger number of predictors Lasso will usually assign nonzero weights to only a subset of the predictors.
@@ -235,13 +235,13 @@
             When the input is perfectly white, we don't need any regularization to recover the true filter. This is because input signals at neighboring times are completely uncorrelated, so multicollinearity is not an issue.
             </p>
              
-            <img src="reg_corr_predictors_time_demo_1.png" width="800px" class="center" />
+            <img src="blog/reg_corr_predictors_time_demo_1.png" width="800px" class="center" />
 
             <p>
             But now suppose the input signal <span id="math-equation">\( x(t) \)</span> has been smoothed a bit (here convolved with a squared exponential kernel only 3 timesteps wide) before being filtered to produce the output y(t). This introduces correlations between <span id="math-equation">\( x(t) \)</span> at nearby timepoints, reflecting a common phenomenon when datasets comprise measured rather than computer-generated signals. Now regularization makes a huge difference.
             </p>
             
-            <img src="reg_corr_predictors_time_demo_2.png" width="800px" class="center" />
+            <img src="blog/reg_corr_predictors_time_demo_2.png" width="800px" class="center" />
 
             <p>
             As we can see, when no regularization is used the filter estimate is extremely messy. This occurs even though we have far more timepoints than filter parameters, so the messiness is not an overfitting issue -- it is instead caused by correlations in the input signal <span id="math-equation">\( x(t) \)</span>. When we use Ridge or Lasso we get a much more interpretable estimate, with Lasso producing a clearly sparse filter.
