@@ -26,15 +26,15 @@
 
             <h2>Gradient of the loss with respect to weights in a recurrent neural network</h2>
             <p>
-            Assume that a loss function <span id="math-equation">\( E \)</span> depends on a set of hidden states <span id="math-equation">\( \{ \mathbf{h}^t \} \)</span> of a recurrent neural network parameterized by a weight matrix <span id="math-equation">\( W \)</span>. The "classical" factorization of the loss gradient <span id="math-equation">\( \nabla_W E \)</span> is defined via
+            Assume that a loss function <span id="math-equation">\( E \)</span> depends on a set of hidden states <span id="math-equation">\( \{ \mathbf{h}^t \} \)</span> of a recurrent neural network parameterized by a weight matrix <span id="math-equation">\( W \)</span>. Define the classical factorization of the loss gradient <span id="math-equation">\( \nabla_W E \)</span> as
             </p>
 
             \[
-            \frac{dE}{dW_{ji}} = \sum_t \frac{dE}{d\mathbf{h}_j^t} \frac{\partial\mathbf{h}_j^t}{\partial W_{ji}}
+            \nabla_W E \equiv \frac{dE}{dW_{ji}} = \sum_t \frac{dE}{d\mathbf{h}_j^t} \frac{\partial\mathbf{h}_j^t}{\partial W_{ji}}
             \]
 
             <p>
-            where <span id="math-equation">\( j \)</span> indexs the post-synaptic neuron. For simplicity we'll ignore the index <span id="math-equation">\( j \)</span> (it essentially means that a specific weight only affects the loss through the neuron it projects onto), and instead focus on the version 
+            where <span id="math-equation">\( j \)</span> indexes the post-synaptic neuron. For simplicity we'll ignore the index <span id="math-equation">\( j \)</span> (it essentially means that a specific weight only affects the loss through the neuron it projects onto), and instead focus on the version 
             </p>
 
             \[
