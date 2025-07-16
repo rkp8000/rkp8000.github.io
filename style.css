@@ -1,52 +1,133 @@
+:root {
+  --main-color: #400668;       /* Soft lavender purple */
+  --bg-color: #f4f0fa;         /* Gentle light lavender */
+  --text-color: #544e58;       /* Soft dark gray */
+  --sidebar-width: 250px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
 body {
   display: flex;
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #2d0771;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--main-color);
+  color: #a69aae;
+  padding: 1rem;
+  flex-shrink: 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar h1 {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.sidebar nav a {
+  display: block;
+  margin-bottom: 0.8rem;
+  text-decoration: none;
+  color: #a69aae;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar nav a:hover {
+  opacity: 0.9;
+  text-decoration: underline;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0; /* VERY important for flex items to prevent overflow */
+}
+
+.home {
+  text-align: center;
+}
+
+.content img {
+  display: block;
+  margin: 2rem auto;
+  max-width: 100%;
+  height: auto;
+} 
+
+.content p {
+  margin-bottom: 1.5rem; /* or adjust to 2rem for even more space */
+}
+
+.centered-narrow-img {
+  display: block;
+  margin: 2rem auto;
+  width: 300px;
+  /* width: 100%; */
+  height: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.profile-img {
+  width: 200px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .container {
-    width: 80%; /* or use a specific width like 1000px */
-    max-width: 1200px; /* Optional: to limit the width on large screens */
-    display: flex;
-    justify-content: space-between; /* Space sidebar and content */
-    color: #333333;
+  display: flex;
+  max-width: 1000px;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  margin: 2rem;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-direction: row; /* default for desktop */
 }
 
-/* Sidebar styles */
-#sidebar {
-    width: 30%; /* Adjust width of sidebar */
-    background-color: #3D52A0;
-    padding: 20px;
-    padding-top: 0px;
-    box-sizing: border-box;
-    color: #bbbbbb;
+/* Responsive layout */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .sidebar nav a {
+    display: inline-block;
+    margin: 0 0.5rem 1rem 0.5rem;
+  }
+
+  .content {
+    padding: 1.5rem;
+  }
 }
 
-#sidebar a {
-  color: #bbbbbb;
-  text-decoration: none;
-}
-
-#sidebar ul {
-    padding-left: 20px;
-}
-
-#sidebar li {
-    padding-bottom: 5px;
-}
-
-/* Content styles */
-#content {
-    width: 75%; /* Adjust width of content */
-    background-color: #8697C4;
-    padding: 25px;
-}
-
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+body {
+  background-color: #f9f9fc; /* Even lighter background */
+  justify-content: center;
 }

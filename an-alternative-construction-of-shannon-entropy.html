@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>An alternative construction of Shannon Entropy</title>
-  <script type="text/javascript" async
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post 1 - My Name</title>
+    <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
   </script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-  <div id="sidebar"></div>
-
-  <div id="content">
+    <div class="container">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
     <h1>An alternative construction of Shannon Entropy</h1>
             <strong>
             TL;DR: Shannon’s entropy formula is usually justified by showing it satisfies key mathematical criteria, or by computing how much space is needed to encode a variable. But one can also construct Shannon’s formula starting purely from the simpler notion of entropy as a (logarithm of a) count—of how many different ways a distribution could have emerged from a sequence of samples.    
@@ -189,9 +189,8 @@
             <p>
             Thus, when we count how many different sequences of samples could have produced <span id="math-equation">\( P \)</span>, in log units and normalizing by the number of samples, we arrive once again at Eq. 1. That is, <em>Shannon's formula is a normalized log-count</em> of how many ways a distribution could have emerged.
             </p>
-  </div>
-</div>
-
-  <script src="script.js"></script>
+  </main>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
