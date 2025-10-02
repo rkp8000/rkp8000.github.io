@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Emo Depo</title>
+<style>
+  body { font-family: sans-serif; margin: 20px; }
+  textarea { width: 100%; margin: 10px 0; padding: 8px; font-size: 14px; }
+  #customNames, #customPlaces { height: 40px; }
+  #original, #depersonalized, #reverted { height: 180px; }
+  button { padding: 10px 20px; margin-right: 10px; font-size: 16px; }
+</style>
+</head>
+<body>
+
+<h2>Desensitize text before editing with AI</h2>
+
+<label>Custom personal names (comma-separated):</label>
+<textarea id="customNames" placeholder="e.g. Zachary, Emilia">Bort</textarea>
+
+<label>Custom place names (comma-separated):</label>
+<textarea id="customPlaces" placeholder="e.g. Princeton, Grand Canyon">Starbonks</textarea>
+<br>
+<button id="saveInUrlBtn">Save in URL</button>
+<br><br>
+<label>Original email:</label>
+<textarea id="original" placeholder="Paste original email here...">Hi Jennifer, 
+
+Just wanted to touch base about our upcoming meeting at Starbonks in New York with Robert. Do you know if Robert has reviewed the portfolio yet? You can reach me at 519-302-5103 or at my_email@gmail.com (or my work email meee@work.edu).
+
+Thanks,
+Bort</textarea>
+
+<button id="depersonalizeBtn">De-personalize →</button>
+
+<br><br>
+<label>De-personalized email:</label>
+<textarea id="depersonalized" placeholder="Result will appear here..."></textarea>
+
+<button id="repersonalizeBtn">← Re-personalize</button>
+
+<br><br>
+<label>Re-personalized email:</label>
+<textarea id="reverted" placeholder="Re-personalized output..."></textarea>
+
+<script>
+let commonNames = [];
+let commonPlaces = [];
+let fakeNamesPool = [];
+let fakePlacesPool = [];
+
+let mappingRealToFake = {};
+let mappingFakeToReal = {};
+
+/* --- Load common and fake lists --- */
+async function loadLists() {
+  try {
+    const [names, places, fakeN, fakeP] = await Promise.all([
+      fetch('aux/desense/common_names.txt').then(r => r.text()),
+      fetch('aux/desense/common_places.txt').then(r => r.text()),
+      fetch('aux/desense/fake_names.txt').then(r => r.text()),
+      fetch('aux/desense/fake_places.txt').then(r => r.text())
+    ]);
+    commonNames = names.split(/\r?\n/).map(n => n.trim()).filter(n => n);
+    commonPlaces = places.split(/\r?\n/).map(n => n.trim()).filter(n => n);
+    fakeNamesPool = fakeN.split(/\r?\n/).map(n => n.trim()).filter(n => n);
+    fakePlacesPool = fakeP.split(/\r?\n/).map(n => n.trim()).filter(n => n);
+  } catch (err) {
+    alert("Could not load name/place lists: " + err);
+  }
+}
+
+/* --- Helpers --- */
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function getUniqueFakeName(pool, usedFakes, realSet) {
+  for (let name of pool) {
+    if (!usedFakes.has(name.toLowerCase()) && !realSet.has(name.toLowerCase())) {
+      usedFakes.add(name.toLowerCase());
+      return name;
+    }
+  }
+  let newFake;
+  do {
+    newFake = "Fake" + Math.floor(Math.random() * 10000);
+  } while (usedFakes.has(newFake.toLowerCase()) || realSet.has(newFake.toLowerCase()));
+  usedFakes.add(newFake.toLowerCase());
+  return newFake;
+}
+
+function detectEmails(text) {
+  const emailRegex = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
+  return new Set(text.match(emailRegex) || []);
+}
+
+function detectPhoneNumbers(text) {
+  const phoneRegex = /(?:\+1[\s.-]?)?(?:\(\d{3}\)|\d{3})[\s.-]?\d{3}[\s.-]?\d{4}\b/g;
+  return new Set(text.match(phoneRegex) || []);
+}
+
+function detectItems(text, list) {
+  const found = new Set();
+  list.forEach(item => {
+    const re = new RegExp("\\b" + escapeRegex(item) + "\\b", "gi");
+    if (re.test(text)) found.add(item);
+  });
+  return found;
+}
+
+function generateFakePhoneNumber(index) {
+  const last4 = String(index).padStart(4, '0');
+  return `+1 (800) 555-${last4}`;
+}
+
+/* --- Depersonalize --- */
+document.getElementById("depersonalizeBtn").addEventListener("click", () => {
+  const originalText = document.getElementById("original").value;
+
+  const customNames = document.getElementById("customNames").value
+      .split(",").map(n => n.trim()).filter(n => n);
+  const customPlaces = document.getElementById("customPlaces").value
+      .split(",").map(n => n.trim()).filter(n => n);
+
+  const allNames = [...new Set([...commonNames, ...customNames])];
+  const allPlaces = [...new Set([...commonPlaces, ...customPlaces])];
+
+  const detectedNames = detectItems(originalText, allNames);
+  const detectedPlaces = detectItems(originalText, allPlaces);
+  const detectedEmails = detectEmails(originalText);
+  const detectedPhones = detectPhoneNumbers(originalText);
+
+  const realNamesSet = new Set([...detectedNames].map(n => n.toLowerCase()));
+  const realPlacesSet = new Set([...detectedPlaces].map(n => n.toLowerCase()));
+
+  mappingRealToFake = {};
+  mappingFakeToReal = {};
+  const usedNameFakes = new Set();
+  const usedPlaceFakes = new Set();
+
+  // Personal names
+  detectedNames.forEach(realName => {
+    const fake = getUniqueFakeName(fakeNamesPool, usedNameFakes, realNamesSet);
+    mappingRealToFake[realName] = fake;
+    mappingFakeToReal[fake] = realName;
+  });
+
+  // Place names
+  detectedPlaces.forEach(realPlace => {
+    const fake = getUniqueFakeName(fakePlacesPool, usedPlaceFakes, realPlacesSet);
+    mappingRealToFake[realPlace] = fake;
+    mappingFakeToReal[fake] = realPlace;
+  });
+
+  // Emails
+  detectedEmails.forEach(realEmail => {
+    let fakeEmail, counter = 1;
+    do {
+      fakeEmail = `fake${counter}@example.com`;
+      counter++;
+    } while (Object.values(mappingRealToFake).includes(fakeEmail));
+    mappingRealToFake[realEmail] = fakeEmail;
+    mappingFakeToReal[fakeEmail] = realEmail;
+  });
+
+  // Phone numbers
+  let phoneCounter = 1;
+  detectedPhones.forEach(realPhone => {
+    const fakePhone = generateFakePhoneNumber(phoneCounter++);
+    mappingRealToFake[realPhone] = fakePhone;
+    mappingFakeToReal[fakePhone] = realPhone;
+  });
+
+  let text = originalText;
+
+  // Replace names and places
+  [...detectedNames, ...detectedPlaces].forEach(item => {
+    const re = new RegExp("\\b" + escapeRegex(item) + "\\b", "gi");
+    text = text.replace(re, match => {
+      const fake = mappingRealToFake[item];
+      return match[0] === match[0].toUpperCase() ? fake : fake.toLowerCase();
+    });
+  });
+
+  // Replace emails
+  detectedEmails.forEach(realEmail => {
+    const re = new RegExp(escapeRegex(realEmail), "g");
+    text = text.replace(re, mappingRealToFake[realEmail]);
+  });
+
+  // Replace phone numbers
+  detectedPhones.forEach(realPhone => {
+    const re = new RegExp(escapeRegex(realPhone), "g");
+    text = text.replace(re, mappingRealToFake[realPhone]);
+  });
+
+  document.getElementById("depersonalized").value = text;
+});
+
+/* --- Re-personalize (FIXED) --- */
+document.getElementById("repersonalizeBtn").addEventListener("click", () => {
+  let text = document.getElementById("depersonalized").value;
+
+  // Helper: returns true if we should try to preserve capitalization and use word boundaries.
+  function useWordBoundaryFor(key) {
+    if (!key || key.length === 0) return false;
+    return /\w/.test(key[0]) && /\w/.test(key[key.length - 1]);
+  }
+  // Helper: decide whether the real value is alphabetic (names/places) so we attempt case-preservation.
+  function isAlphabeticValue(val) {
+    return /^[A-Za-z\s]+$/.test(val);
+  }
+
+  Object.keys(mappingFakeToReal).forEach(fakeKey => {
+    const realVal = mappingFakeToReal[fakeKey];
+    const pattern = useWordBoundaryFor(fakeKey)
+      ? "\\b" + escapeRegex(fakeKey) + "\\b"
+      : escapeRegex(fakeKey);
+    const re = new RegExp(pattern, "gi");
+
+    if (isAlphabeticValue(realVal)) {
+      // preserve capitalization for names/places
+      text = text.replace(re, match => {
+        return match[0] === match[0].toUpperCase() ? realVal : realVal.toLowerCase();
+      });
+    } else {
+      // emails/phones — replace exactly (no case-transform)
+      text = text.replace(re, realVal);
+    }
+  });
+
+  document.getElementById("reverted").value = text;
+});
+
+/* --- Save in URL --- */
+document.getElementById("saveInUrlBtn").addEventListener("click", () => {
+  const customNamesVal = document.getElementById("customNames").value;
+  const customPlacesVal = document.getElementById("customPlaces").value;
+
+  const encodedNames = btoa(customNamesVal);
+  const encodedPlaces = btoa(customPlacesVal);
+  const newUrl = `${location.origin}${location.pathname}?names=${encodedNames}&places=${encodedPlaces}`;
+  history.replaceState(null, "", newUrl);
+  // alert("Custom names saved in URL!");  <-- commented out as requested
+});
+
+/* --- Load from URL --- */
+window.addEventListener("DOMContentLoaded", async () => {
+  await loadLists();
+
+  const params = new URLSearchParams(location.search);
+  if (params.has("names")) {
+    try {
+      document.getElementById("customNames").value = atob(params.get("names"));
+    } catch (e) { console.warn("Invalid encoded names in URL."); }
+  }
+  if (params.has("places")) {
+    try {
+      document.getElementById("customPlaces").value = atob(params.get("places"));
+    } catch (e) { console.warn("Invalid encoded places in URL."); }
+  }
+});
+</script>
+</body>
+</html>
