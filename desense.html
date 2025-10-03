@@ -157,7 +157,7 @@ document.getElementById("depersonalizeBtn").addEventListener("click", () => {
   detectedEmails.forEach(realEmail => {
     let fakeEmail, counter = 1;
     do {
-      fakeEmail = `fake${counter}@example.com`;
+      fakeEmail = `alabaster${counter}@gmail.com`;
       counter++;
     } while (Object.values(mappingRealToFake).includes(fakeEmail));
     mappingRealToFake[realEmail] = fakeEmail;
