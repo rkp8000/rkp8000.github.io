@@ -1,7 +1,9 @@
 let commonNames = [];
 let commonPlaces = [];
+let commonCompanies = [];
 let fakeNamesPool = [];
 let fakePlacesPool = [];
+let fakeCompaniesPool = [];
 
 let mappingRealToFake = {};
 let mappingFakeToReal = {};
@@ -9,18 +11,22 @@ let mappingFakeToReal = {};
 /* --- Load common and fake lists --- */
 async function loadLists() {
   try {
-    const [names, places, fakeN, fakeP] = await Promise.all([
+    const [names, places, companies, fakeN, fakeP, fakeC] = await Promise.all([
       fetch('/aux/desense/common_names.txt').then(r => r.text()),
       fetch('/aux/desense/common_places.txt').then(r => r.text()),
+      fetch('/aux/desense/common_companies.txt').then(r => r.text()),
       fetch('/aux/desense/fake_names.txt').then(r => r.text()),
-      fetch('/aux/desense/fake_places.txt').then(r => r.text())
+      fetch('/aux/desense/fake_places.txt').then(r => r.text()),
+      fetch('/aux/desense/fake_companies.txt').then(r => r.text())
     ]);
     commonNames = names.split(/\r?\n/).map(n => n.trim()).filter(n => n);
     commonPlaces = places.split(/\r?\n/).map(n => n.trim()).filter(n => n);
+    commonCompanies = companies.split(/\r?\n/).map(n => n.trim()).filter(n => n);
     fakeNamesPool = fakeN.split(/\r?\n/).map(n => n.trim()).filter(n => n);
     fakePlacesPool = fakeP.split(/\r?\n/).map(n => n.trim()).filter(n => n);
+    fakeCompaniesPool = fakeC.split(/\r?\n/).map(n => n.trim()).filter(n => n);
   } catch (err) {
-    alert("Could not load name/place lists: " + err);
+    alert("Could not load name/place/company lists: " + err);
   }
 }
 
@@ -76,22 +82,28 @@ document.getElementById("depersonalizeBtn").addEventListener("click", () => {
       .split(",").map(n => n.trim()).filter(n => n);
   const customPlaces = document.getElementById("customPlaces").value
       .split(",").map(n => n.trim()).filter(n => n);
+  const customCompanies = document.getElementById("customCompanies").value
+      .split(",").map(n => n.trim()).filter(n => n);
 
   const allNames = [...new Set([...commonNames, ...customNames])];
   const allPlaces = [...new Set([...commonPlaces, ...customPlaces])];
+  const allCompanies = [...new Set([...commonCompanies, ...customCompanies])];
 
   const detectedNames = detectItems(originalText, allNames);
   const detectedPlaces = detectItems(originalText, allPlaces);
+  const detectedCompanies = detectItems(originalText, allCompanies);
   const detectedEmails = detectEmails(originalText);
   const detectedPhones = detectPhoneNumbers(originalText);
 
   const realNamesSet = new Set([...detectedNames].map(n => n.toLowerCase()));
   const realPlacesSet = new Set([...detectedPlaces].map(n => n.toLowerCase()));
+  const realCompaniesSet = new Set([...detectedCompanies].map(n => n.toLowerCase()));
 
   mappingRealToFake = {};
   mappingFakeToReal = {};
   const usedNameFakes = new Set();
   const usedPlaceFakes = new Set();
+  const usedCompanyFakes = new Set();
 
   // Personal names
   detectedNames.forEach(realName => {
@@ -105,6 +117,13 @@ document.getElementById("depersonalizeBtn").addEventListener("click", () => {
     const fake = getUniqueFakeName(fakePlacesPool, usedPlaceFakes, realPlacesSet);
     mappingRealToFake[realPlace] = fake;
     mappingFakeToReal[fake] = realPlace;
+  });
+    
+  // Company names
+  detectedCompanies.forEach(realCompany => {
+    const fake = getUniqueFakeName(fakeCompaniesPool, usedCompanyFakes, realCompaniesSet);
+    mappingRealToFake[realCompany] = fake;
+    mappingFakeToReal[fake] = realCompany;
   });
 
   // Emails
@@ -128,8 +147,8 @@ document.getElementById("depersonalizeBtn").addEventListener("click", () => {
 
   let text = originalText;
 
-  // Replace names and places
-  [...detectedNames, ...detectedPlaces].forEach(item => {
+  // Replace names, places, companies
+  [...detectedNames, ...detectedPlaces, ...detectedCompanies].forEach(item => {
     const re = new RegExp("\\b" + escapeRegex(item) + "\\b", "gi");
     text = text.replace(re, match => {
       const fake = mappingRealToFake[item];
@@ -191,10 +210,12 @@ document.getElementById("repersonalizeBtn").addEventListener("click", () => {
 document.getElementById("saveInUrlBtn").addEventListener("click", () => {
   const customNamesVal = document.getElementById("customNames").value;
   const customPlacesVal = document.getElementById("customPlaces").value;
+  const customCompaniesVal = document.getElementById("customCompanies").value;
 
   const encodedNames = btoa(customNamesVal);
   const encodedPlaces = btoa(customPlacesVal);
-  const newUrl = `${location.origin}${location.pathname}?names=${encodedNames}&places=${encodedPlaces}`;
+  const encodedCompanies = btoa(customCompaniesVal);
+  const newUrl = `${location.origin}${location.pathname}?names=${encodedNames}&places=${encodedPlaces}&companies=${encodedCompanies}`;
   history.replaceState(null, "", newUrl);
   // alert("Custom names saved in URL!");  <-- commented out as requested
 });
@@ -213,5 +234,10 @@ window.addEventListener("DOMContentLoaded", async () => {
     try {
       document.getElementById("customPlaces").value = atob(params.get("places"));
     } catch (e) { console.warn("Invalid encoded places in URL."); }
+  }
+  if (params.has("companies")) {
+    try {
+      document.getElementById("customCompanies").value = atob(params.get("companies"));
+    } catch (e) { console.warn("Invalid encoded companies in URL."); }
   }
 });

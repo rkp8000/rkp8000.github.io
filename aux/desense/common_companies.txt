@@ -1,0 +1,101 @@
+Apple
+Microsoft
+Google
+Amazon
+Meta (Facebook)
+Tesla
+Samsung
+Intel
+IBM
+Nvidia
+Adobe
+Oracle
+Cisco
+Dell
+HP (Hewlett-Packard)
+Netflix
+Sony
+LG Electronics
+Panasonic
+Philips
+Siemens
+Volkswagen
+Toyota
+Ford
+General Motors (GM)
+Honda
+BMW
+Mercedes-Benz
+Hyundai
+Shell
+BP
+ExxonMobil
+Chevron
+TotalEnergies
+Nestlé
+Coca-Cola
+PepsiCo
+Unilever
+Procter & Gamble (P&G)
+Johnson & Johnson
+Pfizer
+Moderna
+AstraZeneca
+GlaxoSmithKline (GSK)
+Roche
+Novartis
+Walmart
+Costco
+Target
+IKEA
+Aldi
+Zara
+H&M
+Nike
+Adidas
+Under Armour
+Starbucks
+McDonald’s
+Burger King
+Domino’s
+KFC
+Taco Bell
+Uber
+Lyft
+Airbnb
+Booking.com
+Expedia
+PayPal
+Square (Block)
+Stripe
+Mastercard
+Visa
+American Express
+JPMorgan Chase
+Bank of America
+Wells Fargo
+Citibank
+Goldman Sachs
+Morgan Stanley
+Deloitte
+PwC (PricewaterhouseCoopers)
+EY (Ernst & Young)
+KPMG
+Accenture
+Capgemini
+Infosys
+Tata Consultancy Services (TCS)
+Wipro
+Salesforce
+Zoom
+Slack
+Reddit
+eBay
+Shopify
+ByteDance (TikTok)
+Alibaba
+Tencent
+Baidu
+Huawei
+Lenovo
+Fujitsu
