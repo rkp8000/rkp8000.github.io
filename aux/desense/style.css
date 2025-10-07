@@ -1,0 +1,25 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+    font-size: 11px;
+}
+
+#customNames, #customPlaces { 
+    height: 40px;
+}
+
+#original, #depersonalized, #reverted { 
+    height: 240px; 
+}
+
+button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    font-size: 16px; 
+}
