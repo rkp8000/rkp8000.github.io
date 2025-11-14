@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dream Cipher</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 1000px;
+      margin: 40px auto;
+    }
+    .row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .column.encoded {
+      flex: 2; /* makes encoded column twice as wide as the others */
+    }
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      font-size: 16px;
+      resize: vertical;
+    }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 35px; /* line up buttons with textareas */
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dream Cipher</h1>
+  <label for="password">Midnight snack:</label>
+  <textarea id="password" rows="1">mochi</textarea>
+    <br />
+    <br />
+
+  <div class="row">
+    <div class="column">
+      <label for="message">Message</label>
+      <textarea id="message" rows="6">Howdy</textarea>
+      <br />
+      <button onclick="handleEncrypt()">Synthesize</button>
+    </div>
+
+    <div class="column encoded">
+      <label for="encoded">My dream last night</label>
+      <textarea id="encoded" rows="30"></textarea>
+    </div>
+      
+    <div class="controls">
+    </div>
+
+    <div class="column">
+      <label for="decoded">Decoded message</label>
+      <textarea id="decoded" rows="6"></textarea>
+      <br />
+      <button onclick="handleDecrypt()">Analyze</button>
+    </div>
+  </div>
+
+  <script src="/aux/dream/aux.js"></script>
+  <script src="/aux/dream/pako.js"></script>
+  <script src="/aux/dream/compress.js"></script>
+  <script src="/aux/dream/crypt.js"></script>
+  <script src="/aux/dream/bird.js"></script>
+  <script src="/aux/dream/sing.js"></script>
+</body>
+</html>
+

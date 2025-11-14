@@ -1,0 +1,152 @@
+const templates = [
+  "I stand in a [adjective] [setting], holding [amount] [adjective] [object].",
+  "A [character] appears beside me and whispers about a [adjective] [object].",
+  "The [setting] stretches out forever, filled with [amount] [adjective] [object].",
+  "I climb a [adjective] staircase that leads into a [adjective] [setting].",
+  "A [character] gives me [amount] [object], and then vanishes into the [setting].",
+  "The [object] around me shift and change into [adjective] [object].",
+  "I walk along a [setting] where [amount] [object] float in the air.",
+  "Suddenly, a [adjective] [character] blocks my way, holding [amount] [object].",
+  "The ground beneath me turns into [amount] [object], each one [adjective].",
+  "I open a [object] and discover a [adjective] [setting] inside it.",
+  "A chorus of [character] sings about [amount] [object] in the [setting].",
+  "I try to follow a [character], but they dissolve into [adjective] [object].",
+  "The sky fills with [amount] [adjective] [object] as I wander the [setting].",
+  "I see my reflection in a [object], but it becomes a [adjective] [character].",
+  "The [setting] bends and folds, revealing [amount] [adjective] [object].",
+  "I hold [amount] [adjective] [object], but they melt through my fingers.",
+  "A [character] floats above me, pointing toward a [adjective] [setting].",
+  "Every door in the [setting] opens to reveal [amount] [object].",
+  "I hear [character] chanting, their voices echoing from [adjective] [object].",
+  "I cannot move because the air is full of [amount] [adjective] [object]."
+];
+
+// --- placeholder pools ---
+const settings = [
+  "forest", "desert", "city street", "classroom", "ocean", "mountain", 
+  "endless hallway", "mirror maze", "strange house", "crowded market",
+  "abandoned church", "floating island", "cave of glass", "spiral staircase",
+  "train station", "airport terminal", "rooftop", "underground tunnel",
+  "carnival", "ancient ruins", "volcano rim", "frozen lake", "library",
+  "attic", "basement", "swamp", "jungle", "observatory", "labyrinth",
+  "deserted village", "castle courtyard", "flooded street", "moon surface",
+  "astral void", "subway car", "familiar bedroom", "hospital corridor",
+  "theatre stage", "graveyard", "endless desert road"
+];
+
+const objects = [
+  "keys", "candles", "stones", "feathers", "clocks", "books", "coins", "mirrors",
+  "flowers", "letters", "shells", "glasses", "photographs", "lanterns", "ropes",
+  "doors", "swords", "umbrellas", "lanterns", "shoes", "windows", "rings", "dolls",
+  "masks", "spheres", "bottles", "cups", "statues", "scrolls", "paintings", 
+  "instruments", "ladders", "puzzles pieces", "watches", "gems", "teeth", "bones",
+  "maps", "candies", "balloons", "birds' nests", "hands", "faces carved in wood"
+];
+
+const characters = [
+  "child", "old friend", "stranger", "animal", "shadow", "teacher", "parent",
+  "giant", "double of myself", "singer", "masked figure", "statue that moves",
+  "ancestor", "future self", "robot", "monster", "dancer", "clown", "guide",
+  "hunter", "ghost", "healer", "artist", "scientist", "knight", "queen", "king",
+  "angel", "demon", "storyteller", "musician", "traveler", "pilgrim", "witch",
+  "merchant", "acrobat", "soldier", "prisoner", "childhood neighbor", "celebrity",
+  "friend I no longer know", "an enormous animal", "a swarm of people in one body"
+];
+
+const adjectives = [
+  "bright", "dark", "warm", "cold", "heavy", "light", "endless", "familiar",
+  "strange", "beautiful", "terrifying", "fragile", "glowing", "shimmering",
+  "haunting", "soft", "loud", "silent", "blinding", "blurry", "sharp", "distorted",
+  "floating", "frozen", "burning", "melting", "ancient", "hollow", "sacred",
+  "forgotten", "whispering", "colorless", "neon", "shattered", "restless",
+  "still", "living", "breathing", "mechanical", "infinite", "swarming"
+];
+
+const amounts = [
+  "one", "two", "three", "a handful of", "a pile of", "dozens of", "hundreds of",
+  "countless", "exactly seven", "a single", "a pair of", "thousands of",
+  "innumerable", "an impossible number of", "just enough", "a scattering of",
+  "an overflowing armful of", "several", "half of", "double", "triple",
+  "a fraction of", "too many", "not enough", "a collection of", "an army of",
+  "a circle of", "a spiral of", "a broken set of", "an infinite number of"
+];
+
+
+// --- weighted choice helper ---
+function weightedChoice(rng, items, weights) {
+  let total = weights.reduce((a, b) => a + b, 0);
+  let r = rng() * total;
+  let cum = 0;
+  for (let i = 0; i < items.length; i++) {
+    cum += weights[i];
+    if (r < cum) return items[i];
+  }
+  return items[items.length - 1];
+}
+
+// specifying state structure
+const null_state = { template: null, remaining: 0, usedObjects: {}, cursor: 0, rng: null };
+
+// --- sample function ---
+function sample(seed, n, state, context, finish_section = 0) {
+  let { template, remaining, usedObjects, cursor, rng } = state;
+  rng = mulberry32(seed);
+
+  let text = "";
+  let filled = 0;
+
+  while (filled < n || finish_section) {
+    if (!template) {
+      template = templates[Math.floor(rng() * templates.length)];
+      remaining = (template.match(/\[.*?\]/g) || []).length;
+      cursor = 0;
+    }
+
+    while (cursor < template.length && (filled < n || finish_section)) {
+      if (template[cursor] === "[" && remaining > 0) {
+        let end = template.indexOf("]", cursor);
+        let placeholder = template.slice(cursor, end + 1);
+        let replacement;
+        if (placeholder === "[object]") {
+          // let weights = objects.map(item => (usedObjects[item] || 0) + 1);
+          let weights = objects.map(item => 1 + 0.1 * (usedObjects[item] || 0));
+          replacement = weightedChoice(rng, objects, weights);
+          usedObjects[replacement] = (usedObjects[replacement] || 0) + 1;
+        } else if (placeholder === "[setting]") {
+          replacement = settings[Math.floor(rng() * settings.length)];
+        } else if (placeholder === "[character]") {
+          replacement = characters[Math.floor(rng() * characters.length)];
+        } else if (placeholder === "[adjective]") {
+          replacement = adjectives[Math.floor(rng() * adjectives.length)];
+        } else if (placeholder === "[amount]") {
+          replacement = amounts[Math.floor(rng() * amounts.length)];
+        } else {
+          replacement = "???";
+        }
+        text += replacement;
+        cursor = end + 1;
+        remaining--;
+        filled++;
+      } else {
+        text += template[cursor];
+        cursor++;
+      }
+      if (!finish_section && filled >= n) break;
+    }
+
+    if (cursor >= template.length) {
+      text += "\n";
+      template = null;
+      remaining = 0;
+      cursor = 0;
+      if (finish_section) break;
+    }
+
+    if (!finish_section && filled >= n) break;
+  }
+
+  let new_state = { template, remaining, usedObjects, cursor, rng };
+  let new_context = context + text;
+
+  return { text, new_state, new_context };
+}
