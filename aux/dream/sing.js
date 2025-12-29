@@ -49,28 +49,19 @@ function get_chirp_dist(chirp_a, chirp_b) {
     return compareStrings(chirp_a, chirp_b);
 }
 
-// function fix_grammar(song) {
-//     song_fixed = song + 'END';
-//     return song_fixed;
-// }
 function fix_grammar(song) {
-    // Replace "a" with "an" when followed by a vowel-starting word
-    // \b ensures "a" is a standalone word
-    // \s+ allows spaces or newlines
-    song_fixed = song.replace(/\ba\s+([aeiouAEIOU]\w*)/g, "an $1");
+    // Replace "a"/"A" with "an"/"An" when followed by a vowel-starting word
+    song_fixed = song.replace(/\b([aA])\s+([aeiouAEIOU]\w*)/g, function(match, article, word) {
+        return (article === "A" ? "An " : "an ") + word;
+    });
     return song_fixed;
 }
 
-// function unfix_grammar(song) {
-//     song_unfixed = song;
-//     return song_unfixed;
-// }
 function unfix_grammar(song) {
-    // Replace standalone "an" with "a"
-    song_unfixed = song.replace(/\ban\b/g, "a");
+    // Replace standalone "an"/"An" with "a"/"A"
+    song_unfixed = song.replace(/\b([aA])n\b/g, "$1");
     return song_unfixed;
 }
-
 
 // Convert encrypted message to song
 async function sing(encrypted, pwd) {
