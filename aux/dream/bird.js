@@ -1,23 +1,23 @@
 const templates = [
   "I stand in a [adjective] [setting], holding [amount] [adjective] [object].",
-  "A [character] appears beside me and whispers about a [adjective] [object].",
+  "A [character] appears beside me and whispers about [adjective] [object].",
   "The [setting] stretches out forever, filled with [amount] [adjective] [object].",
   "I climb a [adjective] staircase that leads into a [adjective] [setting].",
-  "A [character] gives me [amount] [object], and then vanishes into the [setting].",
+  "A [character] gives me [amount] [object], then vanishes into the [setting].",
   "The [object] around me shift and change into [adjective] [object].",
   "I walk along a [setting] where [amount] [object] float in the air.",
   "Suddenly, a [adjective] [character] blocks my way, holding [amount] [object].",
   "The ground beneath me turns into [amount] [object], each one [adjective].",
-  "I open a [object] and discover a [adjective] [setting] inside it.",
-  "A chorus of [character] sings about [amount] [object] in the [setting].",
+  "I open several [object] and discover a [adjective] [setting] inside it.",
+  "A trembling [character] sings about [amount] [object] in the [setting].",
   "I try to follow a [character], but they dissolve into [adjective] [object].",
   "The sky fills with [amount] [adjective] [object] as I wander the [setting].",
-  "I see my reflection in a [object], but it becomes a [adjective] [character].",
+  "I see my reflection in a [setting], but it becomes a [adjective] [character].",
   "The [setting] bends and folds, revealing [amount] [adjective] [object].",
   "I hold [amount] [adjective] [object], but they melt through my fingers.",
   "A [character] floats above me, pointing toward a [adjective] [setting].",
   "Every door in the [setting] opens to reveal [amount] [object].",
-  "I hear [character] chanting, their voices echoing from [adjective] [object].",
+  "I hear a [character] chanting, their voices echoing from [adjective] [object].",
   "I cannot move because the air is full of [amount] [adjective] [object]."
 ];
 
@@ -50,7 +50,7 @@ const characters = [
   "hunter", "ghost", "healer", "artist", "scientist", "knight", "queen", "king",
   "angel", "demon", "storyteller", "musician", "traveler", "pilgrim", "witch",
   "merchant", "acrobat", "soldier", "prisoner", "childhood neighbor", "celebrity",
-  "friend I no longer know", "an enormous animal", "a swarm of people in one body"
+  "friend I no longer know", "a humongous animal", "a swarm of people in one body"
 ];
 
 const adjectives = [
@@ -65,10 +65,10 @@ const adjectives = [
 const amounts = [
   "one", "two", "three", "a handful of", "a pile of", "dozens of", "hundreds of",
   "countless", "exactly seven", "a single", "a pair of", "thousands of",
-  "innumerable", "an impossible number of", "just enough", "a scattering of",
-  "an overflowing armful of", "several", "half of", "double", "triple",
-  "a fraction of", "too many", "not enough", "a collection of", "an army of",
-  "a circle of", "a spiral of", "a broken set of", "an infinite number of"
+  "innumerable", "a profound number of", "just enough", "a scattering of",
+  "a billowing armful of", "several", "half of", "double", "triple",
+  "a fraction of", "too many", "not enough", "a collection of", "a legion of",
+  "a circle of", "a spiral of", "a broken set of", "infinite"
 ];
 
 

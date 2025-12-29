@@ -49,6 +49,29 @@ function get_chirp_dist(chirp_a, chirp_b) {
     return compareStrings(chirp_a, chirp_b);
 }
 
+// function fix_grammar(song) {
+//     song_fixed = song + 'END';
+//     return song_fixed;
+// }
+function fix_grammar(song) {
+    // Replace "a" with "an" when followed by a vowel-starting word
+    // \b ensures "a" is a standalone word
+    // \s+ allows spaces or newlines
+    song_fixed = song.replace(/\ba\s+([aeiouAEIOU]\w*)/g, "an $1");
+    return song_fixed;
+}
+
+// function unfix_grammar(song) {
+//     song_unfixed = song;
+//     return song_unfixed;
+// }
+function unfix_grammar(song) {
+    // Replace standalone "an" with "a"
+    song_unfixed = song.replace(/\ban\b/g, "a");
+    return song_unfixed;
+}
+
+
 // Convert encrypted message to song
 async function sing(encrypted, pwd) {
     const K = encrypted.length;
@@ -86,11 +109,15 @@ async function sing(encrypted, pwd) {
     }
     const final_chirp = sample(1337, 99, state, context, finish_section = 1);
     song += final_chirp.text;
+    song = fix_grammar(song);
     return song;
 }
 
 // Convert song to encrypted message
 async function listen(song, pwd) {
+    song = unfix_grammar(song);
+    console.log('Unfixed song');
+    console.log(song);
     const K = song.length;  // upper bound on encrypted length
     const salts = await hashToIntegers(pwd, max_salt, K);
 
