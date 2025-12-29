@@ -17,7 +17,7 @@ const templates = [
   "I hold [amount] [adjective] [object], but they melt through my fingers.",
   "A [character] floats above me, pointing toward a [adjective] [setting].",
   "Every door in the [setting] opens to reveal [amount] [object].",
-  "I hear a [character] chanting, their voices echoing from [adjective] [object].",
+  "I hear a [character] chanting, their voice echoing from [adjective] [object].",
   "I cannot move because the air is full of [amount] [adjective] [object]."
 ];
 
