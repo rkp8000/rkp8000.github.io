@@ -3,15 +3,15 @@ const templates = [
   "A [character] appears beside me and whispers about [adjective] [object].",
   "The [setting] stretches out forever, filled with [amount] [adjective] [object].",
   "I climb a [adjective] staircase that leads into a [adjective] [setting].",
-  "A [character] gives me [amount] [object], then vanishes into the [setting].",
+  "A [character] gives me [amount] [object], then vanishes into a [setting].",
   "The [object] around me shift and change into [adjective] [object].",
   "I walk along a [setting] where [amount] [object] float in the air.",
   "Suddenly, a [adjective] [character] blocks my way, holding [amount] [object].",
   "The ground beneath me turns into [amount] [object], each one [adjective].",
-  "I open several [object] and discover a [adjective] [setting] inside it.",
+  "I open several [object] and discover a [adjective] [setting] inside.",
   "A trembling [character] sings about [amount] [object] in the [setting].",
   "I try to follow a [character], but they dissolve into [adjective] [object].",
-  "The sky fills with [amount] [adjective] [object] as I wander the [setting].",
+  "The sky fills with [amount] [adjective] [object] as I wander a [setting].",
   "I see my reflection in a [setting], but it becomes a [adjective] [character].",
   "The [setting] bends and folds, revealing [amount] [adjective] [object].",
   "I hold [amount] [adjective] [object], but they melt through my fingers.",
@@ -59,15 +59,15 @@ const adjectives = [
   "haunting", "soft", "loud", "silent", "blinding", "blurry", "sharp", "distorted",
   "floating", "frozen", "burning", "melting", "ancient", "hollow", "sacred",
   "forgotten", "whispering", "colorless", "neon", "shattered", "restless",
-  "still", "living", "breathing", "mechanical", "infinite", "swarming"
+  "still", "living", "breathing", "mechanical", "pulsating", "swarming"
 ];
 
 const amounts = [
-  "one", "two", "three", "a handful of", "a pile of", "dozens of", "hundreds of",
+  "two", "three", "a handful of", "a pile of", "dozens of", "hundreds of",
   "countless", "exactly seven", "a single", "a pair of", "thousands of",
   "innumerable", "a profound number of", "just enough", "a scattering of",
-  "a billowing armful of", "several", "half of", "double", "triple",
-  "a fraction of", "too many", "not enough", "a collection of", "a legion of",
+  "a billowing armful of", "several", "a wavering amount of", "double", "triple",
+  "too many", "not enough", "a collection of", "a legion of", "a bathtub of",
   "a circle of", "a spiral of", "a broken set of", "infinite"
 ];
 
