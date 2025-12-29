@@ -50,7 +50,7 @@ const characters = [
   "hunter", "ghost", "healer", "artist", "scientist", "knight", "queen", "king",
   "angel", "demon", "storyteller", "musician", "traveler", "pilgrim", "witch",
   "merchant", "acrobat", "soldier", "prisoner", "childhood neighbor", "celebrity",
-  "friend I no longer know", "a humongous animal", "a swarm of people in one body"
+  "friend I no longer know", "humongous animal", "swarm of people in one body"
 ];
 
 const adjectives = [
