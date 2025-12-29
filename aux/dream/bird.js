@@ -64,7 +64,7 @@ const adjectives = [
 
 const amounts = [
   "two", "three", "a handful of", "a pile of", "dozens of", "hundreds of",
-  "countless", "exactly seven", "a single", "a pair of", "thousands of",
+  "countless", "exactly seven", "eight", "nine", "eleven", "five", "six", "a pair of", "thousands of",
   "innumerable", "a profound number of", "just enough", "a scattering of",
   "a billowing armful of", "several", "a wavering amount of", "double", "triple",
   "too many", "not enough", "a collection of", "a legion of", "a bathtub of",
