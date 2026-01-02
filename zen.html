@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Circle</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;  /* Keep the circle from going to the top */
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.01s; /* Smooth transition for background */
+            text-align: center; /* Center text in the body */
+            padding: 0; /* Remove any default body padding */
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;  /* Keep content starting from the top */
+            align-items: center;
+            height: 100%;  /* Take up full height */
+            padding-top: 20vh;  /* Add extra space at the top (e.g., 20% of viewport height) */
+            text-align: center;
+            width: 100%; /* Full width */
+        }
+        
+        .circle {
+            width: 30vw;
+            height: 30vw;
+            max-width: 300px;
+            max-height: 300px;
+            border: 10px solid black;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: black;
+            cursor: pointer;
+            background-color: white;  /* Initial interior color */
+            transition: border-color 0.3s, background-color 0.3s, color 0.3s; /* Smooth transitions */
+            text-align: center; /* Ensure multi-line text is centered horizontally */
+            white-space: pre-line; /* Allow multi-line text with line breaks */
+            padding: 10px; /* Add some padding around the text */
+        }
+        
+        .circle:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .text-container {
+            margin-top: 20px;
+            color: black; /* Initial text color */
+            transition: color 0.3s ease;
+        }
+        
+        .text-container h2,
+        .text-container p {
+            margin: 0;
+            transition: color 0.3s ease; /* Smooth transition for text color */
+        }
+        
+        @media screen and (max-width: 768px) {
+            .circle {
+                width: 50vw;
+                height: 50vw;
+                max-width: 250px;  /* Adjust the max-width for smaller screens */
+                max-height: 250px;  /* Adjust the max-height for smaller screens */
+            }
+        
+            .text-container {
+                margin-top: 20px;
+                padding: 10px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Circle Wrapper -->
+        <div id="circle" class="circle">
+            <span id="text">Begin<br />minute of Zen</span>
+        </div>
+            <br /><br /><br />
+        <!-- New text container underneath the circle -->
+        <div class="text-container">
+            <h2><br /></h2>
+            <h2>Guide to Zen<br /></h2>
+            <br />
+            <p>...no desire...</p>
+            <br />
+            <p>...no judgment...</p>
+            <br />
+            <p>...no fear...</p>
+            <br />
+            <p>When hungry, eat. When tired, sleep.</p>
+            <br />
+            <p>The secret of happiness is to reserve at least one minute a day for Zen.</p>
+            <br /> <br />
+            <h2>Zen Challenges</h2>
+            <br />
+            <p>When can you find your minute of Zen?</p>
+            <br />
+            <p>Level 1: In a quiet place.</p>
+            <br />
+            <p>Level 2: In a loud place.</p>
+            <br />
+            <p>Level 3: Stuck in traffic.</p>
+            <br />
+            <p>Level 4: In the middle of a difficult conversation.</p>
+            <br />
+            <p>Level 5: In the bitter cold.</p>
+            <br />
+            <p>Level 6: In the middle of great joy.</p>
+            <br />
+            <p>Level 7: In deep introspection.</p>
+            <br />
+        </div>
+    </div>
+
+    <script>
+        let timerInterval;
+        let maxTime = 60;
+        let remainingTime = maxTime;  // Start timer at 2 seconds (for testing)
+        let isTimerRunning = false;
+
+        const circle = document.getElementById("circle");
+        const text = document.getElementById("text");
+        const body = document.body;
+        const textContainer = document.querySelector(".text-container");
+
+        // Function to format time in seconds and hundredths of a second
+        function formatTime(time) {
+            const seconds = Math.floor(time);
+            const hundredths = Math.floor((time - seconds) * 100);
+            return `${seconds}.${hundredths < 10 ? '0' + hundredths : hundredths}`;
+        }
+
+        // Function to update background color and other properties based on progress
+        function updateStyles(progress) {
+            // Background color: from black to white
+            const backgroundColor = `rgb(${255 * progress}, ${255 * progress}, ${255 * progress})`;
+            body.style.backgroundColor = backgroundColor;
+
+            // Circle border: from white to black
+            const borderColor = `rgb(${255 - 255 * progress}, ${255 - 255 * progress}, ${255 - 255 * progress})`;
+            circle.style.borderColor = borderColor;
+
+            // Circle interior: from black to white
+            const circleColor = `rgb(${255 * progress}, ${255 * progress}, ${255 * progress})`;
+            circle.style.backgroundColor = circleColor;
+
+            // Text color: from white to black
+            const textColor = `rgb(${255 - 255 * progress}, ${255 - 255 * progress}, ${255 - 255 * progress})`;
+            text.style.color = textColor;
+
+            // Text container color: from white to black
+            const textContainerColor = `rgb(${255 - 255 * progress}, ${255 - 255 * progress}, ${255 - 255 * progress})`;
+            textContainer.style.color = textContainerColor;
+        }
+
+        // Function to start the timer with countdown
+        function startTimer() {
+            if (isTimerRunning) return;  // Prevent multiple clicks
+        
+            isTimerRunning = true;
+            circle.classList.add("no-hover");
+        
+            // Clear any existing timer interval before starting a new one
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+        
+            // Show the countdown (3 -> 2 -> 1) before the timer starts
+            const countdown = ["...three...", "...two...", "...one..."];
+            let countdownIndex = 0;
+        
+            function showCountdown() {
+                if (countdownIndex < countdown.length) {
+                    text.textContent = countdown[countdownIndex];
+                    countdownIndex++;
+                    setTimeout(showCountdown, 1000);  // Wait for 1 second before showing the next number
+                } else {
+                    startActualTimer();  // Start the actual timer after countdown
+                }
+            }
+        
+            // Start the countdown
+            showCountdown();
+        }
+        
+        // Function to start the actual timer after the countdown
+        function startActualTimer() {
+            // Change initial colors when the timer starts
+            body.style.backgroundColor = "black";  // Set initial background to black
+            circle.style.backgroundColor = "black";  // Set circle interior to black
+            circle.style.borderColor = "white";  // Set circle border to white
+            text.style.color = "white";  // Set text to white
+            textContainer.style.color = "black";  // Set initial text container color to black
+        
+            remainingTime = maxTime;  // Reset the timer to 60 seconds for the next round
+        
+            timerInterval = setInterval(() => {
+                remainingTime -= 0.01;  // Decrease by hundredths of a second
+                const progress = (maxTime - remainingTime) / maxTime;  // Progress from 0 to 1 over 60 seconds
+                text.textContent = formatTime(remainingTime);
+        
+                // Update styles based on progress
+                updateStyles(progress);
+        
+                if (remainingTime <= 0) {
+                    clearInterval(timerInterval);
+                    text.textContent = "0";  // Show 0 when the timer hits zero
+                    setTimeout(() => {
+                        text.textContent = "Zen again";  // Show "Begin again"
+                        circle.classList.remove("no-hover");
+                        remainingTime = maxTime;  // Reset the timer to 60 seconds for next round
+                        isTimerRunning = false;
+                        circle.addEventListener("click", startTimer);
+                    }, 2000);  // Display "0" for 2 seconds before showing "Begin again"
+                }
+            }, 10);  // 10 milliseconds interval for hundredths of a second
+        
+            // Disable click during the timer
+            circle.removeEventListener("click", startTimer);
+        }
+
+
+        // Initial click event to start the timer
+        circle.addEventListener("click", startTimer);
+
+        // Hover effect to show the element is clickable (only active when timer is not running)
+        circle.addEventListener("mouseover", () => {
+            if (!isTimerRunning) {
+                text.style.textDecoration = "none";  // No underline when hovering over "Begin"
+            }
+        });
+
+        circle.addEventListener("mouseout", () => {
+            text.style.textDecoration = "none";  // Ensure no underline when mouse leaves
+        });
+    </script>
+</body>
+</html>
