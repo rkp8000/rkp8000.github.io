@@ -87,7 +87,7 @@
     <div class="container">
         <!-- Circle Wrapper -->
         <div id="circle" class="circle">
-            <span id="text">Begin<br />minute of Zen</span>
+            <span id="text"><br /><br /><br /><br />Begin<br /><br /><br /><br /><br /></span>
         </div>
             <br /><br /><br />
         <!-- New text container underneath the circle -->
@@ -95,44 +95,50 @@
             <h2><br /></h2>
             <h2>Instructions<br /></h2>
             <br />
-            <p>Let this next minute be a gift to your soul.</p>
+            <p>Let this minute be a gift to your soul.</p>
             <br />
-            <p>A minute outside the ever-changing shapes and categories and values of this world.</p>
+            <p>Outside the ever-changing shapes and categories of this world.</p>
             <br />
-            <p>Outside the limitations of language and thought and the confines of conceptions.</p>
+            <p>Outside the limitations of thought and the confines of conceptions.</p>
+            <br />
+            <p>Not the wave, but the ocean.</p>
             <br />
             <p>...beyond judgment...</p>
             <br />
             <p>...beyond fear...</p>
             <br />
-            <p>...beyond desire...</p>
+            <p>...beyond all desire...</p>
             <br />
-            <p>Not the wave, but the ocean.</p>
+            <br />
             <br />
             <!-- <p>When hungry, eat. When tired, sleep. When thinking, think. When dreaming, dream.</p>
             <br /> -->
-            <!-- <p>The secret of happiness is to reserve at least a minute a day for Zen.</p>
-            <br /> <br /> -->
             <h2>Zen Challenges</h2>
+            <br />
+            <p>The more you practice the more joyful and powerful your Zen will become.</p>
             <br />
             <p>Where can you find a minute of Zen?</p>
             <br />
-            <p>Level 1: In a quiet place.</p>
+            <p>Level 1: Doing the dishes.</p>
             <br />
-            <p>Level 2: In a loud place.</p>
+            <p>Level 2: Reading the news.</p>
             <br />
-            <p>Level 3: While surrounded by mosquitoes.</p>
+            <p>Level 3: Surrounded by mosquitoes.</p>
             <br />
             <p>Level 4: In the heat of a difficult conversation.</p>
             <br />
             <p>Level 5: In the bitter cold.</p>
             <br />
-            <p>Level 6: In deep analytic thought.</p>
+            <p>Level 6: In deep thought.</p>
             <br />
-            <p>Level 7: In great joys.</p>
+            <p>Level 7: In great joy.</p>
             <br />
             <p>Level 8: In self-examination.</p>
             <br />
+            <p>The secret of happiness is to reserve at least a minute per day for Zen.</p>
+            <br />
+            <p>If today you have only one minute, let it be the crown jewel.</p>
+            <br /><br /><br />
         </div>
     </div>
 
@@ -190,7 +196,7 @@
             }
         
             // Show the countdown (3 -> 2 -> 1) before the timer starts
-            const countdown = ["...three...", "...two...", "...one..."];
+            const countdown = ["\n\n\n\n...three...\n\n\n\n\n", "\n\n\n\n...two...\n\n\n\n\n", "\n\n\n\n...one...\n\n\n\n\n"];
             let countdownIndex = 0;
         
             function showCountdown() {
@@ -221,21 +227,21 @@
             timerInterval = setInterval(() => {
                 remainingTime -= 0.01;  // Decrease by hundredths of a second
                 const progress = (maxTime - remainingTime) / maxTime;  // Progress from 0 to 1 over 60 seconds
-                text.textContent = formatTime(remainingTime);
+                text.textContent = '\n\n\n\n\n\n\n\n\n';
         
                 // Update styles based on progress
                 updateStyles(progress);
         
                 if (remainingTime <= 0) {
                     clearInterval(timerInterval);
-                    text.textContent = "0";  // Show 0 when the timer hits zero
+                    text.textContent = "\n\n\n\nzero.\n\n\n\n\n";  // Show 0 when the timer hits zero
                     setTimeout(() => {
-                        text.textContent = "Zen again";  // Show "Begin again"
+                        text.textContent = "\n\n\n\nZen again\n\n\n\n\n";  // Show "Begin again"
                         circle.classList.remove("no-hover");
                         remainingTime = maxTime;  // Reset the timer to 60 seconds for next round
                         isTimerRunning = false;
                         circle.addEventListener("click", startTimer);
-                    }, 2000);  // Display "0" for 2 seconds before showing "Begin again"
+                    }, 5000);  // Display "0" for 2 seconds before showing "Begin again"
                 }
             }, 10);  // 10 milliseconds interval for hundredths of a second
         
