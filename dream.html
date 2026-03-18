@@ -52,6 +52,19 @@
       display: flex;
       gap: 16px;
       align-items: stretch;
+      flex-direction: row; /* desktop default */
+    }
+    
+    /* Mobile layout */
+    @media (max-width: 768px) {
+      .row {
+        flex-direction: column;
+      }
+    
+      .column,
+      .column.encoded {
+        width: 100%;
+      }
     }
     
     .column {
