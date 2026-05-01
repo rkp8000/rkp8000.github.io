@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crowd sourcing discovery in neuroscience</title>
+    <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content">
+    <h1>Crowd sourcing discovery in neuroscience</h1>
+        <p>
+        <strong>
+        When it comes to modern neuroscience data our cups overrunneth, yet still our understanding of the brain feels lacking.
+        Much of this data may be filled with gems but sits languishing on dusty hard drives.
+        Instead of banking on AI to eventually mine these data, let's let citizen scientists help us forage for interesting signals and phenomena.
+        In neuroscience this may be possible, since many interesting phenomena are visible to the naked eye, and advanced technical knowledge is not always be necessary to recognize them. The more eyes and curious minds on these data rich with potential, the better.
+        This would be a low-tech, low-cost, scalable method that could drive discovery and innovation and loop a greater diversity of voices into neuroscience.
+        </strong>
+        </p>
+        <h2>The bottleneck: Too much data, not enough eyes</h2>
+            <p>
+                Most neuroscientists would probably agree that despite all the excitement in the field we are still a far cry from a comprehensive understanding of the brain.
+                Although not without beauty and major successes in many areas, the field of neuroscience is certainly not at the point of just adding details to a more-or-less established story of how the brain works.
+                Case in point, the needle still seems barely to have moved in the last decades in our ability to treat any brain-related condition that can't be tied to a single molecule.
+                At the same time, most neuroscientists would agree that the field is undergoing a revolution, driven like many great changes by technology.
+                Whereas a few decades ago measuring the activity of a single neuron was a great feat, it is now routine to record the activities of thousands of neurons or more over long experiment durations or in animals roaming freely through their environments.
+                Video and computer vision technologies enable the collection and pre-processing of hours or days of video recordings of animals behaving in natural settings, and storing data is cheaper than ever.
+                Daily the reams of numbers from our measurement devices streameth in.
+                But in the modern academic space much of this data still goes unused, uninspected, unanalyzed, simply because in our current state of affairs there is often much more data than there are people to examine it.
+                How can we find the gems hidden in these datasets to advance our understanding of the brain?   
+            </p>
+
+            <p>
+                The first thought that may come to mind in our modern world is to feed the data to foundation models.
+                If we give powerful enough AI enough data, the story goes, we will make some genuine process in understanding how the brain works. 
+                We will make better predictions, design better experiments, and gain insight by deconstructing the trained models, which is certainly easier than deconstructing the brain.
+                But there are reasons to believe this is not the only approach worth investing in.
+                Among others, (1) it is not clear how much data will be required for a satisfactory understanding of the brain,
+                (2) training foundation models is expensive and not exactly good for the environment, and 
+                (3) modern ML approaches still seem to require substantial labeled training data, which is not trivial to collect.
+                In addition, such an approach simply also feels a little sad---is the value of all this data, which may in spite of technological advances represent years of someone's careful, thoughtful work, really just to feed into AI?
+                Overshadowing all of the above, however, I think one of the most important reason to question the end-to-end AI approach is that in many of the datasets we're not exactly sure what we're looking for, only that the experimenters that collected them sense that there is probably something interesting going on.
+                Indeed, the successes of AI in data analysis so far have largely been automating well-defined (or definable) tasks that are easy but tedious to accomplish by hand, such as keypoint estimation or segmentation of animal videos.
+                Certainly this has been extremely useful but it is a far cry from lending direct insight into brain function or behavior.
+                So what do we do instead?
+                How do we mine data where we don't even know exactly what it is we're looking for?
+                I hold that it is worth investing at least some resources in alternative approaches, even if the outcome is uncertain.
+            </p>
+
+            <p>
+                In my own decade in neuroscience I've come to believe that a large part of the answer may in fact be far easier than it seems: more human eyes on the data.
+                Amid the bounty of computational and analysis methods with which quantitative neuroscience now teems, every successful data-driven project I have undertaken or watched someone else undertake has led me to the same conclusion: the most important thing to do with any dataset has nothing to do with model fitting or big compute, but is rather to spend some serious time <em>just looking at it</em>.
+                It's very easy, and often exciting, to apply the latest computational method or algorithm to a dataset to see the method in action, and certainly one can learn much about the method from such approach, but rarely is this the fastest way to solve this modern "inverse problem" of starting with a dataset and turning it into science.
+                The key secret to turning data into science efficiently, I have come to believe, is to spend some serious time inspecting the data itself from as many angles as possible, patiently looking through hundreds of spike trains or hours of behavior videos, and simply writing down everything that seems interesting about it.
+                "Just looking" here does also not mean simply glancing around haphazardly and unsystematically hoping that a brilliant thought will come to mind.
+                Looking at data, even without any complex methods, is itself a science---an active processwthat involves constantly making predictions about what you're going to see and checking whether the data aligned with or violated these predictions.
+                It does not require complex technology---only the minimal necessary to ensure you are looking at signal rather than noise.
+                What it does require is curiosity and time, and unfortunately in our modern fast-paced academic world the latter is often severely lacking.
+                Or rather, there are simply more interesting datasets than people with the opportunity and time to spend looking at them in the typical academic spheres.
+                So the data sits languidly in hard drives and servers waiting for its day in the sun.
+                The solution, however, is also simple.
+                Much of this fundamental looking process does <em>not</em> require extensive domain or technical knowledge.
+                We are not looking for extremely subtle signals requiring a PhD to understand.
+                In neuroscience we are still in the very exciting stage where simply looking for anything interesting that we did not already know before may be of great benefit down the line.
+                The null hypothesis, at least---that there is truly nothing at all interesting in these data that could be noticed by a curious citizen observer---seems rather unlikely.
+            </p>
+
+        <h2>A proposed solution: A collective foraging experiment</h2>
+            <p>
+            To address this problem, I propose the development of a system that will advance our understanding of brain function by letting curious citizen scientists meaningfully participate in the analysis of neuroscience data in exchange for respectable compensation.
+            A pilot experiment to test the efficacy of this approach is as follows.
+            </p>
+            <p>
+                Step 1. Gather datasets that are strongly believed to contain interesting signal that could be noticed by a curious citizen scientist.
+                We want to minimize the probability of the null hypothesis right off the bat.
+                If datasets are selected based on the curator's belief that there is something interesting in them that could be noticed, if not quantified, by a curious observer, then it will be much more likely that this proposal will work.
+                While the internet abounds with such datasets, a more preferrable approach may be to solicit data from labs that have exactly these types of datasets sitting around---those that have already been collected and are believed to have strong, interesting signals, but which simply no one has had the time to look at yet.
+                This would require little cost to the experimental lab but if successful would produce a novel scientific result about the data that would benefit the lab's research.
+                Animal behavior videos would a natural place to start, for animals are endlessely interesting if you let yourself be curious.
+                Neural datasets are also very interesting and sometimes do exhibit strikingly patterned behavior visible even to the naked eye.
+            </p>
+
+            <p>
+                Step 2. Pay citizen scientists to create reports about these data.
+                The goal of each report would be to demonstrate in as clear a way as possible that there is something interesting going on and probably worth looking into further.
+                Reports would require no technical analysis by default and consist predominantly of plots of examples of interesting phenomena found in the data together with a short write-up describing the phenomena and why they are interesting.
+                What does it mean for a phenomenon to be interesting?
+                An operational definition is that the phenomena should violate predictions that would be by experts in the field in a way that challenges or adds detail to our understanding of behavior and the brain.
+                Reports can be flexible in many ways but should be easy to verify, i.e. to quickly check that the examples of shown in the report are real.
+                Payment would be issued as long as the report is valid and would represent a competitive wage when divided by approximate hours expected per report.
+                To help citizen scientists identify phenomena that are interesting a guide would be provided for identifying interesting phenomena based on making predictions and identifying which features of the data affirm or violate those predictions.
+                Trained LLMs can now assist with simulating predictions of experts to check whether phenomena observed in data would violate their predictions.
+                LLMs can also help articulate why phenomena that seem interesting to the citizen scientist could also be interesting to expert neuroscientists.
+                Participants could be registered, data distributed, and reports collected in a number of ways, for instance via a simple online platform.
+            </p>
+
+            <p>
+                Step 3. Evaluate reports.
+                The preliminary check would be the accuracy of the reports, essentially quickly validating that the raw examples shown in the reports correspond to real sections of the data.
+                The secondary and more important evaluation would be whether the reports are interesting.
+                Here we would give reports to volunteer experts, in particular from the labs who volunteered their data for this experiment, and simply ask them to score the reports in various dimensions, and in particular about whether they would consider the report a legitimate, convincing result that would consistute a genuine contribution to the field.
+            </p>
+
+            <p>
+                The predicted outcome is simply that the participating citizen scientists will discover at least one interesting phenomenon in these datasets, as affirmed by the expert evaluators.
+                The stronger prediction is that <em>every</em> report will contain an interesting phenomenon worthy of further investigation, as a consequence of how the reports are constructed and datasets initially curated by how interesting they are likely to be.
+                Even if only the first, weaker prediction played out, this would serve as proof-of-concept of how discovery in neuroscience can benefit directly from crowd sourcing preliminary inspection of interesting datasets.
+            </p>
+            <p>
+                The primary control will consist of datasets aggregated in the original collection but not presented as available to participants. 
+                There is still some chance that lab members or other scientists may investigate and discover interesting aspects of these data in the same timeframe.
+                As a secondary control one could measure the ability of AI systems, either pre-trained or fine-tuned to the task, to discover interesting results in these data, for instance via agents given free reign to analyze a dataset.
+                I predict, however, that the latter, even given thoughtful prompting, will generate less interesting reports than by curious citizen scientists.
+            </p>
+      
+            <p>
+                The proposed experiment could fail if participants failed to generate generally accurate reports within a reasonable timeframe, or more grandiosely if the generated reports are accurate but simply not deemed interesting by experts.
+                It could turn out that is just simply too hard to discover interesting phenomena in these data without substantial technical training in neuroscience.
+                I believe these failure modes would be unlikely to occur, however, given how the datasets are curated.
+                By piloting the project precisely with datasets that are very likely to contain interesting signal visible to the naked eye---and of these there are certainly many, not least in the realm of animal behavior videos---one would drastically decrease the chance that these signals, and more, would be found by participants.
+                One could also augment the selection process of citizen scientists to focus on those who are genuinely curious and good at pattern recognition, even if they have no formal training.
+                Another failure mode is that the work would be considered too boring by citizen scientists.
+                I think this is also unlikely, however, since this is not tedious procedural work but work whose specific goal is to find visibly interesting phenomena in a dataset believed by construction to contain such phenomena.
+                More generally, while there are various parameterers of the process that might need to be adjusted, it seems that there are many ways such a system could succeed, and any failure modes would teach us about the requisite adjustments.
+                Finally, a curious controversy in modern neuroscience is whether simply collecting more data without exactly knowing what we're looking for will indeed significantly advance our understanding of the brain.
+                Opponents say that all of this data is meaningless without having specific models and hypotheses and theories in hand, whereas proponents point to the great successes of fields like astronomy and microscopy, where we have indeed made great progress just by looking. 
+                I think that it is not so cut and dry in neuroscience, since many of the signals in these data are far more complex and high-dimensional than the 2D images that have bolstered the "just looking" approach in other fields, and that care must be taken to think carefully about how we looks at these data.
+                Regardless, if there is something interesting to be found, more curious people looking carefully at the data certainly can't hurt.
+            </p>
+      
+        <h2>Why now?</h2>
+            <p>
+                Data is getting bigger by the day, and we now sit with unprecedented computational ability at our hands.
+                While I have argued that simply throwing more compute at more data via foundation or end-to-end AI models may not be the only approach worth considering, there are nonetheless important ways modern AI models could be of assistance in the above proposal.
+                First, LLMs can greatly assist with a variety of logistics around the crowd sourcing process, such as quickly developing user interfaces for people to view data and submit reports, thus decreasing administrative costs.
+                Second, LLMs can help citizen scientists gain insight into whether phenomena discovered in the data would likely violate predictions of experts in the field, or more generally help articulate phenomena in language aligned to the modern neuroscientific discourse.
+                Third, LLMs can help parse and process participant reports written in natural language, e.g. to identify common themes reported for different datasets.
+                Thus, while I do not vote for AI replacing human curiosity, it could almost certainly assist people in translating their curiosity into more precise scientific language and thereby contributing their voice to science.
+                The ocean of data grows bigger by the moment and it teems with fascinating creatures only waiting for someone to go looking for them.
+            </p>
+
+        <h2>Scalability.</h2>
+            <p>
+                The experiment above could be implemented at a variety of scales.
+                Even a critical mass of a single interesting citizen science report about a single dataset would establish proof-of-concept.
+                The upper bound would only be the number of datasets that have gone unanalyzed, which increase by the day.
+                Below this bound, the number of interesting phenomena should scale linearly with the number of citizen scientist reports.
+                Because the experiment requires no real critical mass, it would also require very little initial investment to pilot.
+                The main cost includes fees to pay citizen scientists for their reports and any staff or scientists involved in managing the project.
+                The experiment moreover does not rely on any specific technology and could likely play out successfully via many different specific instantiations, hence should be robust at a macroscopic level to a variety of perturbations.
+            </p>
+
+        <h2>Next-generation citzen science</h2>
+            <p>
+                Crowd sourcing has helped neuroscience in modern times by allowing the public to helping scientists pre-process or annotate large datasets, but it may yet have much greater potential.
+                What I have proposed is the crowd sourcing not of routine tasks but of discovery in neuroscience itself.
+                In the above experiment, the contribution of each citizen scientist is by construction an interesting scientific result worthy of the citizen scientist's authorship should it lead to a publication.
+                If the experiment works, everyone stands to gain---the labs who produce the data but may have been waiting a long time for extra eyes on it, the field as a whole for learning something new about behavior or the brain, and the citizen scientists by receiving not only respectable remuneration for their work but also producing a meaningful contribution to science.
+            Notable demographics that may contain a plethora of such competent citizen scientists include high school students looking for a way to participate in research; or neurodivergent individuals that may be quite brilliant---including in domains such as pattern recognition---and with much potential to contribute to research, but who may have difficulty with traditional employment.
+            Crowd sourcing discovery through citizen science would in turn give participants a direct, meaningful connection to the scientific community, which would be of great value to themselves, and to science at large, should they go on to pursue a scientific career more formally.
+            This proposal represents the test of a new path forward to accelerating and diversifying discovery in neuroscience that keeps the human-in-the-loop for the foreseeable future and provides a wide avenue for important, novel voices to contribute their intuitions and insights.
+            </p>
+        <p>This essay is a submission to the 2026 Astera essay competition.</p>
+  </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
