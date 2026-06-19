@@ -47,24 +47,17 @@
       border-color: #6366f1;
       box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
     }
-    
+      
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+      
     .row {
       display: flex;
       gap: 16px;
       align-items: stretch;
-      flex-direction: row; /* desktop default */
-    }
-    
-    /* Mobile layout */
-    @media (max-width: 768px) {
-      .row {
-        flex-direction: column;
-      }
-    
-      .column,
-      .column.encoded {
-        width: 100%;
-      }
+      flex-direction: column;
     }
     
     .column {
@@ -74,7 +67,7 @@
     }
     
     .column.encoded {
-      flex: 2;
+      flex: 1;
     }
     
     button {
@@ -104,63 +97,50 @@
       max-width: 200px;
     }
     
-    /* Mobile responsiveness */
-    @media (max-width: 768px) {
-      .row {
-        flex-direction: column;
-      }
-    
-      .column.encoded {
-        flex: 1;
-      }
-    
-      textarea {
-        font-size: 16px; /* prevents zoom on iOS */
-      }
-    
-      button {
-        width: 100%;
-      }
-    }
   </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <h1>Dream Cipher</h1>
-  <label for="password">Midnight snack:</label>
-  <textarea id="password" rows="1">mochi</textarea>
-    <br />
-    <br />
-
-  <div class="row">
-    <div class="column">
-      <label for="message">Message</label>
-      <textarea id="message" rows="6">Howdy</textarea>
+  <div class="container">
+      <h1>Dream Cipher</h1>
+      <label for="password">Midnight Snack</label>
       <br />
-      <button onclick="handleEncrypt()">Synthesize</button>
-    </div>
-
-    <div class="column encoded">
-      <label for="encoded">Dream</label>
-      <textarea id="encoded" rows="30"></textarea>
-    </div>
-      
-    <div class="controls">
-    </div>
-
-    <div class="column">
-      <label for="decoded">Decoded message</label>
-      <textarea id="decoded" rows="6"></textarea>
-      <br />
-      <button onclick="handleDecrypt()">Analyze</button>
-    </div>
+      <textarea id="password" rows="1">mochi</textarea>
+        <br />
+        <br />
+    
+      <div class="row">
+        <div class="column">
+          <label for="message">Secret message</label>
+          <textarea id="message" rows="6">Howdy</textarea>
+          <br />
+          <button onclick="handleEncrypt()">Synthesize</button>
+          <br />
+        </div>
+    
+        <div class="column encoded">
+          <label for="encoded">Dream</label>
+          <textarea id="encoded" rows="30"></textarea>
+        </div>
+          
+        <div class="controls">
+        </div>
+    
+        <div class="column">
+          <button onclick="handleDecrypt()">Analyze</button>
+          <br />
+          <br />
+          <label for="decoded">Interpretation</label>
+          <textarea id="decoded" rows="6"></textarea>
+        </div>
+      </div>
   </div>
-
-  <script src="/aux/dream/aux.js"></script>
-  <script src="/aux/dream/pako.js"></script>
-  <script src="/aux/dream/compress.js"></script>
-  <script src="/aux/dream/crypt.js"></script>
-  <script src="/aux/dream/bird.js"></script>
-  <script src="/aux/dream/sing.js"></script>
+    
+      <script src="/aux/dream/aux.js"></script>
+      <script src="/aux/dream/pako.js"></script>
+      <script src="/aux/dream/compress.js"></script>
+      <script src="/aux/dream/crypt.js"></script>
+      <script src="/aux/dream/bird.js"></script>
+      <script src="/aux/dream/sing.js"></script>
 </body>
 </html>
-
