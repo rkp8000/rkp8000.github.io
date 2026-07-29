@@ -12,31 +12,42 @@
     <main class="content">
       <h1>Research</h1>
             <br />
-            <h2>Neural computation in the asynchronous irregular regime</h2>
-            <p>
-            One of the most widely observed features of brain activity in awake mammals is that neurons spike irregularly.
-            This has been observed for decades across many brain areas and conditions and is the central motivation behind modeling spike trains as a Poisson process.
-            Yet we still don’t know why the brain operates in this curious regime.
-            Largely, this is due to the tremendous success of artificial neural networks that do not spike, much less irregularly, together with significant mathematical hurdles in understanding how networks can compute with irregular spikes.
-            In a recent <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1013081">study</a>, however, I found that spiking networks in which neurons of different cell types compete in small groups can produce Poisson-like irregular activity strongly resembling mammalian brain activity, while also generating flexible macroscopic dynamics amenable to concise mathematical theory.
-            The theory shows that the emergent macroscopic dynamics exhibit highly favorable properties, such as robust working memory at low firing rates or the ability to produce sequential activity that propagates at controllable speeds.
-            In ongoing work I investigate how these networks can instantiate complex computations such as pattern completion or time-series transformations, and how to fit them to neural recordings to gain specific data-driven insights into neural computation through dynamics.
-            </p>    
-            
-            <h2>Episodic memory and learning</h2>
+            <h2>Cellular basis of episodic learning</h2>
             
             <p>
-            Much of our day-to-day learning occurs not through repeated trials typically studied in the laboratory, but after single experiences like a chat with a friend or a walk through a new part of town.
-            These experiences, or episodes, often have rich patterning that we absorb almost immediately and which can significantly influences our future cognitive and behavioral processes.
-            But how synaptic plasticity rules in the brain support episodic memory and learning is not understood.
-            Recent <a href="https://www.science.org/doi/10.1126/sciadv.ado4112">work</a> showed how episodic memory and learning could be supported by much simpler neural plasticity mechanisms than previously thought, by relying on pre-existing structures or priors over naturalistic neural activity.
-            We found that episodes corresponding to paths through a wide variety of complex state spaces could be accurately represented using plasticity rules depending only on pre-synaptic activity (in contrast to the long-standing Hebbian theory of memory), such as those found in the hippocampal mossy fiber pathway, and subsequently reconstructed with an odor-tracking algorithm.
-            A crucial consequence is that episodic memory reconstruction may strongly depend on one's priors---for instance, one's model of the world---which has wide implications for social institutions from witness testimony to psychotherapy.
-            In ongoing work I investigate how the neural codes for such episodes can be used for complex cognitive computations, and how similar biological plasticity rules can be leveraged for rapid learning in neuromorphic dynamical systems.
+            Much of our day-to-day learning occurs not through repeated pairings of a stimulus and reward, but after single experiences, like a classroom lecture or a walk through a new part of town.
+            These experiences, or episodes, often have rich structure that we absorb almost immediately and which can significantly influence our future.
+            How does the brain support this critical function?
+            While synaptic plasticity has been studied in petri dishes for decades, most of the processes discovered appear to be well-suited for repeated stimulus-reward pairings but too slow for episodic learning.
+            The classic Hebbian theory of plasticity---"neurons that fire together wire together"---is observed extensively in dishes, but there is still little evidence that two neurons firing together during a single experience can produce significant learning.
+            In a recent <a href="https://www.science.org/doi/10.1126/sciadv.ado4112">study</a> with Stefano Recanatesi (Technion---Israel Institute of Technology), we found that non-Hebbian (non-associative) plasticity mechanisms, that do not require neurons to fire together, can in fact but extremely effective at storing complex episodic information, and may be much closer to more recently experimentally observed plasticity <a href="https://www.science.org/doi/10.1126/science.aan3846">rules</a> in awake animals on episodic learning timescales [1].
+            In our model, associative information is instead reconstructed (effectively by using a graph-structured prior over naturalistic associative and temporal patterns) thus relieving the synapses of this duty.
+            A crucial consequence is that episodic recall may strongly depend on one's priors, such as one's model of the world, which has wide social implications.
             </p>
-            <p>Online talk: <a href="https://www.youtube.com/watch?v=PXJduD_wOE8&t=0s">A non-Hebbian code for episodic memory</a></p>
 
-            <h2>Discovering neural computations from natural behavior</h2>
+            <p>
+            In <a href="https://www.biorxiv.org/content/10.1101/2025.08.30.673300v2">work</a> with Juncal Arbelaiz and Jonathan Pillow (Princeton University) we propose PRISM (Pre-synaptic and Instructive Signal-mediated) plasticity, a generalized version of the former model with specific links to plasticity rules observed in several brain regions in vivo, and demonstrate its wide-ranging capabilities.
+            In the PRISM rule, plasticity is not continuous but gated by a controllable, biologically inspired instructive signal such as dopamine or a plateau potential, which we show can teach the network complex nonlinear dynamics.
+            We find that PRISM plasticity is not only more biological, but also more powerful and flexible than traditional plasticity rules, and exhibits deep mathematical links with both kernel and control theory, suggesting a clear path forward for a rigorous foundation of nonlinear learning in the brain.
+            In a further <a href="https://journals.aps.org/pre/accepted/10.1103/m8bw-9fzg">study</a> I found that PRISM-like rules may also be highly energy efficient, which in turn predicts their widespread occurrence throughout the nervous system.
+            In ongoing work I investigate how the dynamics produced by such plasticity mechanisms can support complex computations and how the kernel formulation of these models can be leveraged to fit them to data.
+            </p>
+
+            <h2>Neural computation through noise</h2>
+            <p>
+            The brain is extremely noisy yet performs remarkable computations.
+            Neurons emit action potentials, or spikes, with highly irregular timing, yet somehow at a collective level this instantiates a robust, flexible information processing system.
+            How does the brain manage in the face of such noise?
+            Does all this noise just interfere with things, or could it be essential to computation?
+            I investigate this question in spiking network models that operate in a "fluctuation-driven" regime, in which information in the network flows through changes in the variance of synaptic inputs, rather than their means.
+            In a recent <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1013081">study</a>, I found that networks of winner-take-all units exhibit such a regime and within this regime produce smooth, controllable collective patterns yet which are supported by noisy, irregular spiking.
+            By adjusting synaptic variances alone, one can train these networks to produce highly flexible nonlinear dynamical patterns, including multistability and slow sequences (thought to be involved in working memory), all powered by noise.
+            Thus noisy spike times in the brain, while usually treated as detrimental, could in principle be quite essential to general-purpose dynamics and computation.
+            The study also establishes a concise mathematical theory that links the population-averaged firing rate dynamics to individual spike times, and reveals how single-unit nonlinearities produce collective nonlinearity in the network, a long-standing challenge in theoretical neuroscience.
+            In ongoing work I investigate how these networks can instantiate specific computations such as pattern completion or time-series transformations, and how to they can be fit to data to test theories about information processing in the brain.
+            </p>    
+        
+            <h2>Mechanistic modeling of natural time-series</h2>
       
             <p>
             With modern recording technology and tracking algorithms, collecting and pre-processing natural animal behavior data has never been easier.
