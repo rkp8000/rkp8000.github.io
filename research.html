@@ -18,17 +18,17 @@
             Much of our day-to-day learning occurs not through repeated pairings of a stimulus and reward, but after single experiences, or "episodes", like a classroom lecture or a walk through a new part of town.
             How does the brain store the complex information in these episodes so quickly?
             Synaptic plasticity is widely accepted as a major contributor to learning and memory, with most models based on the classic Hebbian theory that "neurons that fire together, wire together", which is intuitively well suited for binding different patterns of information together.
-            Most experiments, however, suggest that Hebbian plasticity is actually too slow for learning from a single experience, whereas faster, stronger plasticity rules operating at one-shot episodic learning timescales do not appear to be Hebbian.
+            Most experiments, however, suggest that Hebbian plasticity is actually too slow for learning from a single experience, whereas faster, stronger plasticity rules operating at episodic learning timescales do not appear to be Hebbian.
             In a recent <a href="https://www.science.org/doi/10.1126/sciadv.ado4112">study</a> with <a href="https://technionneuroailab.com">Stefano Recanatesi</a>, we found that non-Hebbian plasticity mechanisms can in fact be extremely effective at binding together complex episodic information.
             In our model, the associative or sequential information usually thought to require Hebbian plasticity is instead reconstructed by prior knowledge such as the state space underlying a world model.
-            A crucial consequence is that episodic recall may strongly depend on one's priors, which has wide implications in arenas ranging from education to psychotherapy to information transmission through social networks.
+            A crucial consequence is that episodic recall may strongly depend on one's pre-existing knowledge, including how one makes predictions about the world, which has wide implications in arenas ranging from education to psychotherapy to information transmission through social networks.
             </p>
 
             <p>
             Recently, colleagues at Princeton University and I developed an extended version of the model using a rule we term <a href="https://www.biorxiv.org/content/10.1101/2025.08.30.673300v2">PRISM plasticity</a>, which unifies rapid plasticity rules thought to operate in several animal species and brain regions.
             In this model, the PRISM rule rapidly modifies the dynamics of a recurrent neural network (RNN) by shaping the flow of information through a plastic feedback circuit.
-            We find that PRISM plasticity is not only more biological, but also more powerful and flexible than traditional Hebbian rules, and exhibits deep mathematical links with both kernel and control theory, suggesting a novel basis for a rigorous foundation of episodic learning in the brain.
-            In a further <a href="https://journals.aps.org/pre/accepted/10.1103/m8bw-9fzg">study</a> I found that PRISM-like rules may also be highly energy efficient, which in turn provides a first-principles prediction of their widespread occurrence throughout the nervous system.
+            We find that PRISM plasticity is not only more biological, but also more powerful and flexible than traditional Hebbian rules, and exhibits deep links with both kernel and control theory, suggesting a new basis for a rigorous mathematical foundation for studying episodic learning in the brain.
+            In a further <a href="https://journals.aps.org/pre/accepted/10.1103/m8bw-9fzg">study</a> I found that PRISM-like rules may also be highly energy efficient, which provides a first-principles prediction of their widespread occurrence throughout the nervous system.
             In ongoing work I investigate how PRISM plasticity can be leveraged for advanced computations and how we can use the model and its kernel formulation to fit and interpret neural data.
             </p>
 
@@ -36,10 +36,10 @@
             <p>
             The brain is extremely noisy yet performs remarkable computations.
             Neurons emit action potentials, or spikes, with highly irregular timing, yet somehow at a collective level this instantiates a robust, flexible information processing system.
-            How does the brain manage in the face of such noise?
-            Does all this noise just interfere with things, or could it be essential to computation?
-            I recently developed a new spiking network model in which information in the network flows through changes in the variance of synaptic inputs, rather than their means.
-            In this <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1013081">study</a>, I found that networks of spiking winner-take-all units can produce smooth, controllable collective patterns yet which emerge from and are are supported by noisy, irregular spiking.
+            How does the brain manage in the face of such noisy, irregular spike timing?
+            Does all this noise just interfere with things, or could it be leveraged for computation?
+            I recently developed a new <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1013081">spiking network model</a> in which information in the network flows through changes in the noisiness (variance) of synaptic inputs, rather than their average values.
+            In this study I found that networks of spiking winner-take-all units can produce smooth, controllable collective patterns yet which emerge from and are supported by noisy, irregular spiking.
             One can train these networks to produce highly flexible nonlinear dynamical patterns, including multistability and slow sequences (thought to support working memory), all powered by noise.
             Thus, noisy spike times in the brain could in principle not only co-exist with, but be essential to general-purpose dynamics and computation.
             In ongoing work I investigate how these networks can instantiate specific computations such as pattern completion or time-series transformations, and how to they can be fit to data to test theories about information processing in the brain.
