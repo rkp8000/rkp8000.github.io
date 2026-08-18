@@ -12,50 +12,49 @@
     <main class="content">
       <h1>Research</h1>
             <br />
-            <h2>Cellular basis of episodic learning</h2>
+            <h2>Neural basis of episodic learning</h2>
             
             <p>
-            Much of our day-to-day learning occurs not through repeated pairings of a stimulus and reward, but after single experiences, like a classroom lecture or a walk through a new part of town.
-            These experiences, or episodes, often have rich structure that we absorb almost immediately and which can significantly influence our future.
-            How does the brain support this critical function?
-            While synaptic plasticity has been studied in petri dishes for decades, most of the processes discovered appear to be well-suited for repeated stimulus-reward pairings but too slow for episodic learning.
-            The classic Hebbian theory of plasticity---"neurons that fire together wire together"---is observed extensively in dishes, but there is still little evidence that two neurons firing together during a single experience can produce significant learning.
-            In a recent <a href="https://www.science.org/doi/10.1126/sciadv.ado4112">study</a> with Stefano Recanatesi (Technion---Israel Institute of Technology), we found that non-Hebbian (non-associative) plasticity mechanisms, that do not require neurons to fire together, can in fact but extremely effective at storing complex episodic information, and may be much closer to more recently experimentally observed plasticity <a href="https://www.science.org/doi/10.1126/science.aan3846">rules</a> in awake animals on episodic learning timescales [1].
-            In our model, associative information is instead reconstructed (effectively by using a graph-structured prior over naturalistic associative and temporal patterns) thus relieving the synapses of this duty.
-            A crucial consequence is that episodic recall may strongly depend on one's priors, such as one's model of the world, which has wide social implications.
+            Much of our day-to-day learning occurs not through repeated pairings of a stimulus and reward, but after single experiences, or "episodes", like a classroom lecture or a walk through a new part of town.
+            How does the brain store the complex information in these episodes so quickly?
+            Synaptic plasticity is widely accepted as a major contributor to learning and memory, with most models based on the classic Hebbian theory that "neurons that fire together, wire together", which is intuitively well suited for binding different patterns of information together.
+            Most experiments, however, suggest that Hebbian plasticity is actually too slow for learning from a single experience, whereas faster, stronger plasticity rules operating at one-shot episodic learning timescales do not appear to be Hebbian.
+            In a recent <a href="https://www.science.org/doi/10.1126/sciadv.ado4112">study</a> with <a href="https://technionneuroailab.com">Stefano Recanatesi</a>, we found that non-Hebbian plasticity mechanisms can in fact be extremely effective at binding together complex episodic information.
+            In our model, the associative or sequential information usually thought to require Hebbian plasticity is instead reconstructed by prior knowledge such as the state space underlying a world model.
+            A crucial consequence is that episodic recall may strongly depend on one's priors, which has wide implications in arenas ranging from education to psychotherapy to information transmission through social networks.
             </p>
 
             <p>
-            In <a href="https://www.biorxiv.org/content/10.1101/2025.08.30.673300v2">work</a> with Juncal Arbelaiz and Jonathan Pillow (Princeton University) we propose PRISM (Pre-synaptic and Instructive Signal-mediated) plasticity, a generalized version of the former model with specific links to plasticity rules observed in several brain regions in vivo, and demonstrate its wide-ranging capabilities.
-            In the PRISM rule, plasticity is not continuous but gated by a controllable, biologically inspired instructive signal such as dopamine or a plateau potential, which we show can teach the network complex nonlinear dynamics.
-            We find that PRISM plasticity is not only more biological, but also more powerful and flexible than traditional plasticity rules, and exhibits deep mathematical links with both kernel and control theory, suggesting a clear path forward for a rigorous foundation of nonlinear learning in the brain.
-            In a further <a href="https://journals.aps.org/pre/accepted/10.1103/m8bw-9fzg">study</a> I found that PRISM-like rules may also be highly energy efficient, which in turn predicts their widespread occurrence throughout the nervous system.
-            In ongoing work I investigate how the dynamics produced by such plasticity mechanisms can support complex computations and how the kernel formulation of these models can be leveraged to fit them to data.
+            Recently, colleagues at Princeton University and I developed an extended version of the model using a rule we term <a href="https://www.biorxiv.org/content/10.1101/2025.08.30.673300v2">PRISM plasticity</a>, which unifies rapid plasticity rules thought to operate in several animal species and brain regions.
+            In this model, the PRISM rule rapidly modifies the dynamics of a recurrent neural network (RNN) by shaping the flow of information through a plastic feedback circuit.
+            We find that PRISM plasticity is not only more biological, but also more powerful and flexible than traditional Hebbian rules, and exhibits deep mathematical links with both kernel and control theory, suggesting a novel basis for a rigorous foundation of episodic learning in the brain.
+            In a further <a href="https://journals.aps.org/pre/accepted/10.1103/m8bw-9fzg">study</a> I found that PRISM-like rules may also be highly energy efficient, which in turn provides a first-principles prediction of their widespread occurrence throughout the nervous system.
+            In ongoing work I investigate how PRISM plasticity can be leveraged for advanced computations and how we can use the model and its kernel formulation to fit and interpret neural data.
             </p>
 
-            <h2>Neural computation through noise</h2>
+            <h2>Noise-powered computational dynamics in the brain</h2>
             <p>
             The brain is extremely noisy yet performs remarkable computations.
             Neurons emit action potentials, or spikes, with highly irregular timing, yet somehow at a collective level this instantiates a robust, flexible information processing system.
             How does the brain manage in the face of such noise?
             Does all this noise just interfere with things, or could it be essential to computation?
-            I investigate this question in spiking network models that operate in a "fluctuation-driven" regime, in which information in the network flows through changes in the variance of synaptic inputs, rather than their means.
-            In a recent <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1013081">study</a>, I found that networks of winner-take-all units exhibit such a regime and within this regime produce smooth, controllable collective patterns yet which are supported by noisy, irregular spiking.
-            By adjusting synaptic variances alone, one can train these networks to produce highly flexible nonlinear dynamical patterns, including multistability and slow sequences (thought to be involved in working memory), all powered by noise.
-            Thus noisy spike times in the brain, while usually treated as detrimental, could in principle be quite essential to general-purpose dynamics and computation.
-            The study also establishes a concise mathematical theory that links the population-averaged firing rate dynamics to individual spike times, and reveals how single-unit nonlinearities produce collective nonlinearity in the network, a long-standing challenge in the study of spiking networks.
+            I recently developed a new spiking network model in which information in the network flows through changes in the variance of synaptic inputs, rather than their means.
+            In this <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1013081">study</a>, I found that networks of spiking winner-take-all units can produce smooth, controllable collective patterns yet which emerge from and are are supported by noisy, irregular spiking.
+            One can train these networks to produce highly flexible nonlinear dynamical patterns, including multistability and slow sequences (thought to support working memory), all powered by noise.
+            Thus, noisy spike times in the brain could in principle not only co-exist with, but be essential to general-purpose dynamics and computation.
             In ongoing work I investigate how these networks can instantiate specific computations such as pattern completion or time-series transformations, and how to they can be fit to data to test theories about information processing in the brain.
             </p>    
         
-            <h2>Mechanistic modeling of natural time-series</h2>
+            <h2>Neuro-mechanistic modeling of natural behavior</h2>
       
             <p>
-            With modern recording technology and tracking algorithms, collecting and pre-processing natural animal behavior data has never been easier.
-            How can we best use this data to gain deeper insights into brain function?
-            In a recent <a href=”https://www.pnas.org/doi/10.1073/pnas.2417733122”>study</a> we showed how to use pure behavioral data from unrestrained, freely moving animals to test candidate neural codes for naturalistic sensory stimuli, using a method we termed <em>Natural Continuation</em>.
-            By formalizing neural coding models encompassing distinct hypotheses, fitting these to existing neural data, then using them to simulate artificial neural activity alongside natural behavior data, we found that certain models' simulated activity could predict held-out behavior much better than others, sometimes even outperforming state-of-the-art deep networks.
-            We tested our approach to understand neural population codes for fruit fly social communication signals during courtship, which revealed a previously unknown model for the neural coding of input sequences that generalizes naturally to other systems and has specific advantageous computational properties, such as the ability to retain fine-scale temporal information for long periods.
-            This work thus shows how pure natural behavior data can be leveraged to generate insights into biologically plausible neural computations even before new neural data are collected---a crucial advance toward minimizing invasive animal surgeries and accelerating future neural experiments.
+            With modern recording and computer vision technology, collecting and pre-processing natural animal behavior data has never been easier.
+            But how can we best use this data to gain deeper insights into brain function?
+            In a <a href=”https://www.pnas.org/doi/10.1073/pnas.2417733122”>study</a> with colleagues at Princeton we showed how to build mechanistic models to link together high-throughput neural recordings with separate natural behavior data to gain insights into complex neural codes for natural stimuli.
+            By formalizing neural models representing distinct hypotheses, fitting these to neural data, then using them to simulate artificial neural activity alongside natural behavior data, we found that certain models' simulated activity predicts behavior much better than others, sometimes even outperforming state-of-the-art deep networks.
+            We tested our approach to understand neural population codes for fruit fly social communication signals during courtship, which revealed a novel code for the female's memory of the male's courtship song.
+            The inferred code leveraged three key, highly biological principles&mdash;adaptation, integration, and parameter heterogeneity&mdash;and exhibited computational advantages lacking in many artificial models, such as the ability to remember fine-scale timing information for long periods.
+            This work thus shows how natural behavior data can be leveraged to generate insights into biological plausible neural computations even without collecting simultaneous neural data&mdash;an important advance toward minimizing invasive animal surgeries and accelerating the design and interpretation of future experiments.
             </p>
 
     </main>
