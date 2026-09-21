@@ -76,7 +76,7 @@
 
             <p>
             as
-            <img src="blog/bptt_factorization_comp_graph_1a.png" width="30%" class="center" />.
+            <img src="blog/bptt_factorization_comp_graph_1a.png" width="30%" class="center" alt="Example computation graph corresponding to the preceding equations." />.
             </p>
 
             <p>
@@ -92,7 +92,7 @@
             For example, to calculate the total derivative <span id="math-equation">\( dL/dW \)</span> we first enumerate all six paths from <span id="math-equation">\( W \)</span> to <span id="math-equation">\( L \)</span>:
             </p>
             <p>
-            <img src="blog/bptt_factorization_comp_graph_1b.png" width="85%" class="center" />
+            <img src="blog/bptt_factorization_comp_graph_1b.png" width="85%" class="center" alt="The same computation graph as above, copied six times, with a different path from w to L highlighted in each copy."/>
             and then sum them via:
             </p>
 
@@ -136,13 +136,13 @@
 
             <p>
             The computation graph for a recurrent neural network with hidden states <span id="math-equation">\( \mathbf{h}^t \)</span> and parameterized by weights <span id="math-equation">\( W \)</span> is:
-            <img src="blog/bptt_factorization_comp_graph_2a.png" width="30%" class="center" />
+            <img src="blog/bptt_factorization_comp_graph_2a.png" width="30%" class="center" alt="The computation graph for a standard recurrent neural network." />
             </p>
             <p>
             We will now factorize the gradient of the loss <span id="math-equation">\( E \)</span> with respect to the weights <span id="math-equation">\( W \)</span>. As with the last example, we will group terms according to the first edge out of <span id="math-equation">\( W \)</span>:
             </p>
             <p>
-            <img src="blog/bptt_factorization_comp_graph_2b.png" width="100%" class="center" />
+            <img src="blog/bptt_factorization_comp_graph_2b.png" width="100%" class="center" alt="Graphical expansion of the total derivative of the loss, E, with respect to W, showing all paths grouped by timepoint of the hidden state." />
             or, mathematically:
             </p>
 
